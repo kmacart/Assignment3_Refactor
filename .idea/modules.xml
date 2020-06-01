@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Assignment3_Refactor.iml" filepath="$PROJECT_DIR$/Assignment3_Refactor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Assignment 1/FP-2007 Card Game Model/FP-2007 Card Game Model.iml" filepath="$PROJECT_DIR$/../Assignment 1/FP-2007 Card Game Model/FP-2007 Card Game Model.iml" />
+    </modules>
+  </component>
+</project>

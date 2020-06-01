@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="validator">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Assignment 1/FP-2007 Card Game Model/lib/validator.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

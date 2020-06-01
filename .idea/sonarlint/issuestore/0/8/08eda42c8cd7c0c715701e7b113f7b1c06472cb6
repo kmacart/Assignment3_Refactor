@@ -1,0 +1,15 @@
+
+`
+java:S1128">Remove this unused import 'java.beans.PropertyChangeListener'.(ş¼ÃÀùÿÿÿÿ8„ŒÆ¦.
+]	java:S125."<This block of commented-out lines of code should be removed.(İíû¯ÿÿÿÿÿ8ˆ·ŒÆ¦.
+X
+java:S1128";Remove this unused import 'java.beans.PropertyChangeEvent'.(’¢œ§8„ŒÆ¦.
+X	java:S125>"<This block of commented-out lines of code should be removed.(ğ£µí8Î‹ÓÄ¦.
+]	java:S125'"<This block of commented-out lines of code should be removed.(‚×üÚÿÿÿÿÿ8à´œÆ¦.
+I
+java:S1602",Remove useless curly braces around statement(Ü†ıß8¸Ğ¼Ä¦.
+J
+java:S1604!"(Make this anonymous inner class a lambda(üıš–üÿÿÿÿ8íª˜Æ¦.
+N
+java:S1172",Remove this unused method parameter "model".(ê÷¿ÿÿÿÿÿ8·ò—Æ¦.
+i	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(¦¯í³8ª¥ÁÄ¦.

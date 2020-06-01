@@ -1,0 +1,17 @@
+
+X	java:S125A"<This block of commented-out lines of code should be removed.(É¢áà8Ê£¹Î¦.
+V
+java:S4973q"9Use the "equals" method if value comparison was intended.(˜Æ‘ê8Ê£¹Î¦.
+E
+java:S16049"(Make this anonymous inner class a lambda(îÎºÇ8”÷ÚÊ¦.
+M
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8—Ğ÷É¦.
+I
+java:S1948"'Make "model" transient or serializable.(ŒòÛÊúÿÿÿÿ8‰‚îÉ¦.
+T
+java:S1135D"2Complete the task associated to this TODO comment.(ùäšûÿÿÿÿ8Ê£¹Î¦.
+X	java:S125E"<This block of commented-out lines of code should be removed.( •‚†8Ê£¹Î¦.
+]	java:S125C"<This block of commented-out lines of code should be removed.(‘„¨Ãùÿÿÿÿ8Ê£¹Î¦.
+]	java:S125H"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8Ê£¹Î¦.
+[
+java:S4973x"9Use the "equals" method if value comparison was intended.(ïĞóÇüÿÿÿÿ8Ê£¹Î¦.

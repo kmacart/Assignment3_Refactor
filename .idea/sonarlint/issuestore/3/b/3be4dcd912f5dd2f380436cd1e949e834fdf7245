@@ -1,0 +1,19 @@
+
+X
+java:S1854J"<Remove this useless assignment to local variable "elements".(‡â§D8ş®„Ì¦.
+I
+java:S1481J"-Remove this unused "elements" local variable.(‡â§D8ş®„Ì¦.
+U
+java:S4973G"9Use the "equals" method if value comparison was intended.(‘ØÌx8²ÉÏ¦.
+I
+java:S1602",Remove useless curly braces around statement(Ü†ıß8°Ò§Æ¦.
+V
+java:S4973N"9Use the "equals" method if value comparison was intended.(‡»è¢8™÷Ì¦.
+J
+java:S1128"-Remove this unused import 'model.GameEngine'.(Š÷ 8½´ÉÒ¦.
+W
+java:S1191"5Use classes from the Java API instead of Sun classes.(¶ƒÿºıÿÿÿÿ8„¡¨Æ¦.
+O
+java:S1128"2Remove this unused import 'java.util.Enumeration'.(»îÜ®8Ö¼æË¦.
+V
+java:S4973="9Use the "equals" method if value comparison was intended.(˜Æ‘ê8¯ùÆÓ¦.
