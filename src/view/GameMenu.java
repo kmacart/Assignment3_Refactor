@@ -54,10 +54,8 @@ public class GameMenu extends JMenuBar implements PropertyChangeListener {
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt)
-    {
-        if(evt.getPropertyName() == GUICallback.NEW_PLAYER_ADDED)
-        {
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getPropertyName() == GUICallback.NEW_PLAYER_ADDED) {
             Player player = (Player) evt.getNewValue();
 
             JMenu playerMenu = new JMenu(player.getName());

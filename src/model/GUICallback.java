@@ -21,6 +21,9 @@ public class GUICallback implements GameCallback {
     public static final String PLAYER_REMOVED = "Player Removed";
     public static final String PLAYER_DEAL = "Player Dealt Card";
     public static final String HOUSE_DEAL = "House Dealt Card";
+    public static final String PLAYER_BUST = "Player Bust";
+    public static final String HOUSE_BUST = "House Bust";
+    public static final String BET_UPDATED = "Bet Updated";
 
     @Override
     public void addPlayer(Player player) {
@@ -36,7 +39,7 @@ public class GUICallback implements GameCallback {
 
     @Override
     public void betUpdated(Player player) {
-        showMessageDialog(JOptionPane.getRootFrame(), player.getName() + " has bet updated.", "Player Bet Updated   ",JOptionPane.INFORMATION_MESSAGE);
+        this.pcs.firePropertyChange(BET_UPDATED, null, player);
     }
 
     @Override
@@ -52,7 +55,7 @@ public class GUICallback implements GameCallback {
 
     @Override
     public void playerBust(Player player, Card card) {
-
+        this.pcs.firePropertyChange(PLAYER_BUST, null, player);
     }
 
     @Override
@@ -63,8 +66,8 @@ public class GUICallback implements GameCallback {
 
     @Override
     public void houseBust(Hand houseHand, Card card) {
-
-    }
+        this.pcs.firePropertyChange(HOUSE_BUST, null, houseHand);
+   }
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
