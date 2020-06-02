@@ -3,6 +3,7 @@ package view;
 import model.GUICallback;
 import model.GameModel;
 import model.Player;
+import model.bet.Bet;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -15,6 +16,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Collection;
 
 import static java.awt.BorderLayout.*;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class PlayersPanel extends JPanel implements PropertyChangeListener {
     private GameModel model;
@@ -44,7 +46,7 @@ public class PlayersPanel extends JPanel implements PropertyChangeListener {
         JPanel controlPanel = new JPanel(new BorderLayout());
         controlPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        controlPanel.add(new JLabel("Points: " + player.getPoints()), PAGE_START);
+        controlPanel.add(new JLabel("Points: " + player.getTotalPoints()), PAGE_START);
         controlPanel.add(new JLabel("Player Bet: " + player.getBet().toString()), CENTER);
 
         JPanel pButtons = new JPanel(new GridLayout(3, 1));
@@ -59,20 +61,31 @@ public class PlayersPanel extends JPanel implements PropertyChangeListener {
         });
         JButton bet = new JButton("Update Bet");
 
-//        deal.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                // TODO Update this to only deal one card to player
-//                new Blackjack().getGameEngine().dealPlayer(player.getId(), 10);
-//                updateCards(true);
-//
-//            }
-//        });
+        bet.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new UpdateBetDialog(model, player);
+            }
+        });
+
+        JButton deal = new JButton("Deal");
+        deal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (player.getBet() == Bet.NO_BET) {
+                    showMessageDialog(JOptionPane.getRootFrame(), "A bet needs to be placed before cards can be dealt.", "No Bet",JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    model.dealPlayer(player, 1000);
+                }
+            }
+        });
 
         pButtons.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         pButtons.add(remove);
         pButtons.add(bet);
+        pButtons.add(deal);
         pButtons.setVisible(true);
 
         controlPanel.setBackground(Color.GRAY);
@@ -125,6 +138,17 @@ public class PlayersPanel extends JPanel implements PropertyChangeListener {
             validate();
         }
 
+        if(evt.getPropertyName() == GUICallback.BET_UPDATED)
+        {
+            //TODO FIX THIS SO NOT REMOVING ALL AND RE_ADDING
+            removeAll();
+            Collection<Player> players = model.getGameEngine().getAllPlayers();
+            for (Player player : players)
+            {
+                addPlayer(player);
+            }
+            validate();
+        }
     }
 
 }

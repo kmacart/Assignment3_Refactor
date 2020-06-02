@@ -1,5 +1,7 @@
 package model;
 
+import view.ConsoleLoggerCallback;
+
 public class GameModel {
     private GameEngine gameEngine;
     private GUICallback callback;
@@ -9,6 +11,8 @@ public class GameModel {
         this.gameEngine = new GameEngineImpl();
         this.callback = new GUICallback();
         this.gameEngine.registerCallback(callback);
+        ConsoleLoggerCallback logger = new ConsoleLoggerCallback(gameEngine);
+        gameEngine.registerCallback(logger);
     }
 
     public GUICallback getCallBack() {
@@ -31,7 +35,6 @@ public class GameModel {
             @Override
             public void run()
             {
-                gameEngine.placeBet(player.getId(), 10);
                 gameEngine.dealPlayer(player.getId(), delay);
             }
         }.start();

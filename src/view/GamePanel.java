@@ -3,6 +3,7 @@ package view;
 import model.GUICallback;
 import model.GameModel;
 import model.Player;
+import model.bet.Bet;
 import model.card.Card;
 import model.card.Hand;
 
@@ -12,109 +13,111 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
 import java.util.Iterator;
 
 import static java.awt.BorderLayout.PAGE_END;
-import static java.awt.BorderLayout.PAGE_START;
+import static javax.swing.JOptionPane.showMessageDialog;
 
-public class GamePanel extends JPanel implements PropertyChangeListener, ItemListener {
+public class GamePanel extends JPanel implements PropertyChangeListener, ActionListener {
     private GameModel model;
-    private GridBagConstraints c = new GridBagConstraints();
-    JPanel hCards = new JPanel(new GridLayout(1, 0));
-    JPanel pCards;
+    JPanel pCards = new JPanel(new GridLayout(1, 0));
     private Player currentPlayer;
-    JPanel container = new JPanel(new BorderLayout());
+    private Hand houseHand;
+    JPanel container = new JPanel();
     JPanel playersPanel = new JPanel();
     JPanel cards = new JPanel(new CardLayout());
     JPanel comboBoxPane = new JPanel(); //use FlowLayout
     JComboBox cb = new JComboBox();
+    JPanel playersContainer = new JPanel();
+    JLabel playerScore = new JLabel();
+    JLabel houseScore = new JLabel();
 
     public GamePanel(GameModel model) {
         this.model = model;
-        JPanel houseContainer = new JPanel();
-        houseContainer.setLayout(new BoxLayout(houseContainer, BoxLayout.PAGE_AXIS));
-        createPlayersCardLayout();
         setSize(1150, 900);
 
-        JButton house = new JButton("House");
-        house.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                model.dealHouse(500);
-            }
-        });
+        playersContainer.setLayout(new BoxLayout(playersContainer, BoxLayout.PAGE_AXIS));
+        createPlayersCardLayout();
 
-        houseContainer.add(house);
-        houseContainer.add(hCards);
-
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.ipady = 40;
-        c.weighty = 1.0;
-        c.gridx = 0;
-        c.gridy = 5;
-
-        container.add(houseContainer,PAGE_START);
-        container.add(this.playersPanel,PAGE_END);
-
-        hCards.setVisible(true);
-
+        container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
+        container.add(playersContainer,PAGE_END);
+        container.add(new ResultsPanel(model), PAGE_END);
         add(container);
 
         model.getCallBack().addPropertyChangeListener(this);
 
     }
 
-    //TODO Separate this out into components so it works better.
-
     private void createPlayersCardLayout() {
+        playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.PAGE_AXIS));
+
+        cb.addItem("House");
         cb.setEditable(false);
-        cb.addItemListener(this);
+        cb.addActionListener(this);
+
         comboBoxPane.add(cb);
         cards.setVisible(true);
         playersPanel.add(comboBoxPane, BorderLayout.PAGE_START);
-        playersPanel.add(cards, BorderLayout.CENTER);
-        JButton deal = new JButton("Deal Card");
+
+        JButton deal = new JButton("Deal House");
 
         deal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                model.dealPlayer(currentPlayer, 1000);
+                Boolean outstandingBets = false;
+
+                for (Player player: model.getGameEngine().getAllPlayers()) {
+                    if (player.getBet() != Bet.NO_BET && player.getHand().getNumberOfCards() == 0)
+                    {
+                        showMessageDialog(JOptionPane.getRootFrame(), "The house cannot be dealt until all players with bets have been dealt.", "Outstanding Player Bets.",JOptionPane.ERROR_MESSAGE);
+                        outstandingBets = true;
+                    }
+                }
+                if (!outstandingBets) {
+                    model.dealHouse(1000);
+                }
             }
         });
         playersPanel.add(deal, PAGE_END);
+        playersPanel.add(pCards, BorderLayout.CENTER);
+        playerScore.setText("Player Score: 0");
+        playersPanel.add(playerScore, PAGE_END);
+        playersContainer.add(playersPanel);
     }
 
-    private void addPlayerCard(Player player)
-    {
-        JPanel card = new JPanel();
-        pCards  = new JPanel(new GridLayout(1, 0));
-        card.add(pCards);
-        cards.add(card, player.getName());
-    }
-
-    public void itemStateChanged(ItemEvent evt) {
-        CardLayout cl = (CardLayout)(cards.getLayout());
-        cl.show(cards, (String)evt.getItem());
+    public void actionPerformed(ActionEvent e) {
         currentPlayer = null;
         pCards.removeAll();
+        playerScore.setText("Current Score: 0");
+        if (cb.getSelectedItem() == "House" && houseHand != null) {
+            updateCards(houseHand.getCards(), pCards);
+            playerScore.setText("Current Score: ".concat(Integer.toString(houseHand.getScore())));
+        }
+        else {
+            setCurrentPlayer();
+        }
+        validate();
+    }
+
+    private void setCurrentPlayer()
+    {
         Collection<Player> players = model.getGameEngine().getAllPlayers();
         Iterator<Player> playersIter = players.iterator();
         while (currentPlayer == null && playersIter.hasNext())
         {
             Player player = playersIter.next();
-            if (player.getName().equals((String)evt.getItem())) {
+            if (player.getName().equals(cb.getSelectedItem())) {
                 currentPlayer = player;
             }
         }
         if (currentPlayer != null && currentPlayer.getHand().getNumberOfCards() > 0) {
             updateCards(currentPlayer.getHand().getCards(), pCards);
+            playerScore.setText("Current Score: ".concat(Integer.toString(currentPlayer.getHand().getScore())));
         }
-        validate();
+
     }
 
     private void updateCards(Collection<Card> cards, JPanel panel) {
@@ -144,33 +147,45 @@ public class GamePanel extends JPanel implements PropertyChangeListener, ItemLis
         if(evt.getPropertyName().equals(GUICallback.NEW_PLAYER_ADDED))
         {
             Player player = (Player) evt.getNewValue();
-            addPlayerCard(player);
             cb.addItem(player.getName());
+            if (currentPlayer == null) {
+                currentPlayer = player;
+                cb.setSelectedItem(player.getName());
+            }
             validate();
         }
 
         if(evt.getPropertyName().equals(GUICallback.PLAYER_REMOVED))
         {
-//            playersDropDown.removeAllItems();
-//            Collection<Player> players = model.getGameEngine().getAllPlayers();
-//            for (Player player : players)
-//            {
-//                playersDropDown.addItem(player.getName());
-//            }
-            validate();
+        cb.removeAllItems();
+        cb.addItem("House");
+        Collection<Player> players = model.getGameEngine().getAllPlayers();
+        for (Player player : players)
+        {
+            cb.addItem(player.getName());
         }
+        validate();
+    }
 
         if(evt.getPropertyName().equals(GUICallback.PLAYER_DEAL))
         {
             Player player = (Player) evt.getNewValue();
+            if (cb.getSelectedItem() != player.getName()) {
+                cb.setSelectedItem(player.getName());
+            }
             updateCards(player.getHand().getCards(), pCards);
+            playerScore.setText("Player Score: ".concat(Integer.toString(currentPlayer.getHand().getScore())));
             validate();
         }
 
         if(evt.getPropertyName().equals(GUICallback.HOUSE_DEAL))
         {
-            Hand houseHand = (Hand) evt.getNewValue();
-            updateCards(houseHand.getCards(), hCards);
+            if (cb.getSelectedItem() != "House") {
+                cb.setSelectedItem("House");
+            }
+            houseHand = (Hand) evt.getNewValue();
+            updateCards(houseHand.getCards(), pCards);
+            playerScore.setText("Player Score: ".concat(Integer.toString(houseHand.getScore())));
             validate();
         }
     }

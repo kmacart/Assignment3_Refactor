@@ -13,8 +13,10 @@ import java.beans.PropertyChangeListener;
  */
 @SuppressWarnings("serial")
 public class GameFrame extends JFrame implements PropertyChangeListener {
+    private GameModel model;
 
     public GameFrame(GameModel model) {
+        this.model = model;
 
         setTitle("Blackjack");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -64,5 +66,9 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
             validate();
         }
 
+        if(evt.getPropertyName() == GUICallback.HOUSE_BUST)
+        {
+            validate();
+        }
     }
 }
