@@ -1,7 +1,6 @@
 package view;
 
 import com.sun.glass.events.KeyEvent;
-import model.GUICallback;
 import model.GameModel;
 import model.Player;
 

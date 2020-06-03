@@ -1,14 +1,14 @@
 
-Q
-java:S1948"/Make "currentPlayer" transient or serializable.(ğƒÎŸÿÿÿÿÿ8¬ßÍ¦.
-I
-java:S1948"'Make "model" transient or serializable.(ŒòÛÊúÿÿÿÿ8µÏ‹Í¦.
-^	java:S125›"<This block of commented-out lines of code should be removed.(™Â•Äüÿÿÿÿ8É§ßõ¦.
-J
-java:S1604T"(Make this anonymous inner class a lambda(€Ÿ¨Ãüÿÿÿÿ8“ŞØô¦.
-K
-java:S1905o")Remove this unnecessary cast to "String".(ìÒÎûÿÿÿÿ8•©îõ¦.
 T
-java:S1135I"2Complete the task associated to this TODO comment.(æ´Âúÿÿÿÿ8ƒœøë¦.
+java:S1135H"2Complete the task associated to this TODO comment.(æ´Âúÿÿÿÿ8ƒœøë¦.
 J
-java:S1604."(Make this anonymous inner class a lambda(ÍÅ²ìøÿÿÿÿ8ãŠíè¦.
+java:S1604-"(Make this anonymous inner class a lambda(ÍÅ²ìøÿÿÿÿ8ãŠíè¦.
+J
+java:S1604S"(Make this anonymous inner class a lambda(€Ÿ¨Ãüÿÿÿÿ8“ŞØô¦.
+^	java:S125š"<This block of commented-out lines of code should be removed.(™Â•Äüÿÿÿÿ8É§ßõ¦.
+I
+java:S1948"'Make "model" transient or serializable.(ŒòÛÊúÿÿÿÿ8µÏ‹Í¦.
+K
+java:S1905n")Remove this unnecessary cast to "String".(ìÒÎûÿÿÿÿ8•©îõ¦.
+Q
+java:S1948"/Make "currentPlayer" transient or serializable.(ğƒÎŸÿÿÿÿÿ8¬ßÍ¦.

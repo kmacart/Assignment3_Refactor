@@ -1,6 +1,5 @@
 package view;
 
-import model.GUICallback;
 import model.GameModel;
 import model.Player;
 import model.bet.Bet;
@@ -26,25 +25,26 @@ public class GamePanel extends JPanel implements PropertyChangeListener, ActionL
     JPanel pCards = new JPanel(new GridLayout(1, 0));
     private Player currentPlayer;
     private Hand houseHand;
-    JPanel container = new JPanel();
-    JPanel playersPanel = new JPanel();
-    JPanel cards = new JPanel(new CardLayout());
-    JPanel comboBoxPane = new JPanel(); //use FlowLayout
+    JPanel container = new JPanel(new BorderLayout());
+    JPanel playersPanel = new JPanel(new BorderLayout());
     JComboBox cb = new JComboBox();
-    JPanel playersContainer = new JPanel();
     JLabel playerScore = new JLabel();
     JLabel houseScore = new JLabel();
+    JButton dealAll = new JButton("Deal All");
+    JButton dealHouse = new JButton("Deal House");
+    JPanel toolbar = new JPanel();
 
     public GamePanel(GameModel model) {
         this.model = model;
         setSize(1150, 900);
 
-        playersContainer.setLayout(new BoxLayout(playersContainer, BoxLayout.PAGE_AXIS));
+//        playersContainer.setLayout(new BoxLayout(playersContainer, BoxLayout.PAGE_AXIS));
         createPlayersCardLayout();
 
-        container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
-        container.add(playersContainer,PAGE_END);
+//        container.setLayout(new BoxLayout(container, BoxLayout.PAGE_AXIS));
+        container.add(playersPanel,BorderLayout.PAGE_START);
         container.add(new ResultsPanel(model), PAGE_END);
+
         add(container);
 
         model.getCallBack().addPropertyChangeListener(this);
@@ -52,52 +52,76 @@ public class GamePanel extends JPanel implements PropertyChangeListener, ActionL
     }
 
     private void createPlayersCardLayout() {
-        playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.PAGE_AXIS));
+//        playersPanel.setLayout(new BoxLayout(playersPanel, BoxLayout.PAGE_AXIS));
+        toolbar.add(dealAll);
+        toolbar.add(dealHouse);
 
         cb.addItem("House");
         cb.setEditable(false);
         cb.addActionListener(this);
 
-        comboBoxPane.add(cb);
-        cards.setVisible(true);
-        playersPanel.add(comboBoxPane, BorderLayout.PAGE_START);
+        toolbar.add(cb);
+        toolbar.setBackground(Color.darkGray);
+        playersPanel.add(toolbar, BorderLayout.PAGE_START);
 
-        JButton deal = new JButton("Deal House");
+        dealAll.addActionListener(this);
+        dealHouse.addActionListener(this);
 
-        deal.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Boolean outstandingBets = false;
-
-                for (Player player: model.getGameEngine().getAllPlayers()) {
-                    if (player.getBet() != Bet.NO_BET && player.getHand().getNumberOfCards() == 0)
-                    {
-                        showMessageDialog(JOptionPane.getRootFrame(), "The house cannot be dealt until all players with bets have been dealt.", "Outstanding Player Bets.",JOptionPane.ERROR_MESSAGE);
-                        outstandingBets = true;
-                    }
-                }
-                if (!outstandingBets) {
-                    model.dealHouse(1000);
-                }
-            }
-        });
-        playersPanel.add(deal, PAGE_END);
         playersPanel.add(pCards, BorderLayout.CENTER);
         playerScore.setText("Player Score: 0");
         playersPanel.add(playerScore, PAGE_END);
-        playersContainer.add(playersPanel);
+    }
+
+    private void processDealHouse()
+    {
+        Boolean outstandingBets = false;
+
+        if (model.getGameEngine().getAllPlayers().isEmpty()) {
+            showMessageDialog(JOptionPane.getRootFrame(), "At least one player must place a bet before dealing the house.", "No Player Bets.",JOptionPane.ERROR_MESSAGE);
+        }
+        else {
+            int num_no_bet = 0;
+            int num_players = 0;
+            for (Player player: model.getGameEngine().getAllPlayers()) {
+                num_players++;
+                if (player.getBet() == Bet.NO_BET) {
+                    num_no_bet++;
+                }
+                if (player.getBet() != Bet.NO_BET && player.getHand().getNumberOfCards() == 0) {
+                    showMessageDialog(JOptionPane.getRootFrame(), "The house cannot be dealt until all players with bets have been dealt.", "Outstanding Player Bets.",JOptionPane.ERROR_MESSAGE);
+                    outstandingBets = true;
+                }
+            }
+            if (num_no_bet == num_players) {
+                showMessageDialog(JOptionPane.getRootFrame(), "At least one player must place a bet before dealing the house.", "No Player Bets.",JOptionPane.ERROR_MESSAGE);
+            }
+            else if (!outstandingBets) {
+                model.dealHouse(1000);
+            }
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
-        currentPlayer = null;
-        pCards.removeAll();
-        playerScore.setText("Current Score: 0");
-        if (cb.getSelectedItem() == "House" && houseHand != null) {
-            updateCards(houseHand.getCards(), pCards);
-            playerScore.setText("Current Score: ".concat(Integer.toString(houseHand.getScore())));
+        if (e.getSource() == dealAll) {
+            for (Player player : model.getGameEngine().getAllPlayers()) {
+                model.dealPlayer(player, model.getDelay());
+            }
+
+            model.dealHouse(model.getDelay());
+        }
+        else if (e.getSource() == dealHouse) {
+            processDealHouse();
         }
         else {
-            setCurrentPlayer();
+            currentPlayer = null;
+            pCards.removeAll();
+            playerScore.setText("Current Score: 0");
+            if (cb.getSelectedItem() == "House" && houseHand != null) {
+                updateCards(houseHand.getCards(), pCards);
+                playerScore.setText("Current Score: ".concat(Integer.toString(houseHand.getScore())));
+            } else {
+                setCurrentPlayer();
+            }
         }
         validate();
     }

@@ -1,6 +1,5 @@
 package view;
 
-import model.GUICallback;
 import model.GameModel;
 import model.Player;
 import model.bet.Bet;
@@ -115,20 +114,18 @@ public class PlayersPanel extends JPanel implements PropertyChangeListener {
         add(pPanelCon);
         playerpanel.setVisible(true);
         controlPanel.setVisible(true);
+        playerpanel.revalidate();
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt)
-    {
-        if(evt.getPropertyName() == GUICallback.NEW_PLAYER_ADDED)
-        {
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getPropertyName() == GUICallback.NEW_PLAYER_ADDED) {
             Player player = (Player) evt.getNewValue();
             addPlayer(player);
             validate();
         }
 
-        if(evt.getPropertyName() == GUICallback.PLAYER_REMOVED)
-        {
+        if(evt.getPropertyName() == GUICallback.PLAYER_REMOVED) {
             removeAll();
             Collection<Player> players = model.getGameEngine().getAllPlayers();
             for (Player player : players)
@@ -138,13 +135,11 @@ public class PlayersPanel extends JPanel implements PropertyChangeListener {
             validate();
         }
 
-        if(evt.getPropertyName() == GUICallback.BET_UPDATED)
-        {
+        if(evt.getPropertyName() == GUICallback.BET_UPDATED) {
             //TODO FIX THIS SO NOT REMOVING ALL AND RE_ADDING
             removeAll();
             Collection<Player> players = model.getGameEngine().getAllPlayers();
-            for (Player player : players)
-            {
+            for (Player player : players) {
                 addPlayer(player);
             }
             validate();

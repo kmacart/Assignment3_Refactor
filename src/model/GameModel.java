@@ -1,13 +1,23 @@
 package model;
 
 import view.ConsoleLoggerCallback;
+import view.GUICallback;
 
 public class GameModel {
     private GameEngine gameEngine;
     private GUICallback callback;
+    private int delay;
 
-    public GameModel()
-    {
+    public int getDelay() {
+        return delay;
+    }
+
+    public void setDelay(int time) {
+        delay = time;
+    }
+
+
+    public GameModel() {
         this.gameEngine = new GameEngineImpl();
         this.callback = new GUICallback();
         this.gameEngine.registerCallback(callback);
@@ -23,13 +33,11 @@ public class GameModel {
         return gameEngine;
     }
 
-    public void addPlayer(Player player)
-    {
+    public void addPlayer(Player player) {
         gameEngine.addPlayer(player);
     }
 
-    public void dealPlayer(Player player, int delay)
-    {
+    public void dealPlayer(Player player, int delay) {
         new Thread()
         {
             @Override
@@ -40,8 +48,7 @@ public class GameModel {
         }.start();
     }
 
-    public void dealHouse(int delay)
-    {
+    public void dealHouse(int delay) {
         new Thread()
         {
             @Override
@@ -50,4 +57,5 @@ public class GameModel {
                 gameEngine.dealHouse(delay);
             }
         }.start();
-    }}
+    }
+}

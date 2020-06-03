@@ -2,6 +2,7 @@ package view;
 
 import model.GameModel;
 import model.Player;
+import model.card.Suit;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -18,12 +19,22 @@ public class UpdateBetDialog extends JDialog {
     /**
      * The Title.
      */
-    JLabel title = new JLabel("Update Bet");
+    private JLabel title = new JLabel("Update Bet");
 
     /**
      * The Points.
      */
-    JTextField amount = new JTextField("Enter bet amount");
+    private JTextField amount = new JTextField("Enter bet amount");
+
+    private Suit[] suits = {Suit.DIAMONDS,Suit.CLUBS,Suit.HEARTS,Suit.SPADES};
+    private JComboBox suit = new JComboBox(suits);
+
+    private String[] betTypes = {"Score Bet","Suit Bet",};
+    private JComboBox betType = new JComboBox(betTypes);
+    private JPanel panel = new JPanel();
+    private FormLayout form = new FormLayout();
+    private JLabel suitLabel = new JLabel("Bet Suit");
+
     /**
      * The Submit.
      */
@@ -41,19 +52,46 @@ public class UpdateBetDialog extends JDialog {
     public void actionPerformed(ActionEvent e) {
         int pAmount = 0;
 
-        do {
-            try {
-                pAmount = Integer.parseInt(amount.getText());
-            } catch (NumberFormatException e1) {
-                JOptionPane.showMessageDialog(this, "Bet amount must be a number.", "Error", JOptionPane.ERROR_MESSAGE);
-                this.error = true;
-            }
+        if (e.getSource() == submit) {
+            do {
+                try {
+                    pAmount = Integer.parseInt(amount.getText());
+                } catch (NumberFormatException e1) {
+                    JOptionPane.showMessageDialog(this, "Bet amount must be a number.", "Error", JOptionPane.ERROR_MESSAGE);
+                    this.error = true;
+                }
 
-            if (!error) {
-                this.model.getGameEngine().placeBet(player.getId(), pAmount);
+                if (!error) {
+                    if (betType.getSelectedIndex() == 1) {
+                        try {
+                            this.model.getGameEngine().placeBet(player.getId(), pAmount, suits[suit.getSelectedIndex()]);
+                        } catch (IllegalArgumentException e1) {
+                            JOptionPane.showMessageDialog(this,player.getName() + " does not have enough points to place this bet.","Error",JOptionPane.ERROR_MESSAGE);
+                        }
+
+                    } else {
+                        try {
+                            this.model.getGameEngine().placeBet(player.getId(), pAmount);
+                        } catch (IllegalArgumentException e2) {
+                            JOptionPane.showMessageDialog(this,player.getName() + " does not have enough points to place this bet.","Error",JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            } while (error);
+            this.dispose();
+        } else if (e.getSource() == betType) {
+            if (betType.getSelectedIndex() == 1) {
+                suitLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+                suitLabel.setBorder(new EmptyBorder(0,0,10,10));
+                suitLabel.setVisible(true);
+                suit.setVisible(true);
+                revalidate();
+            } else if (betType.getSelectedIndex() == 0) {
+                suitLabel.setVisible(false);
+                suit.setVisible(false);
+                revalidate();
             }
-        } while (error);
-        this.dispose();
+        }
     }
 
     /**
@@ -63,11 +101,7 @@ public class UpdateBetDialog extends JDialog {
         this.model = model;
         this.player = player;
 
-
         setLayout(new GridBagLayout());
-
-        JPanel panel = new JPanel();
-        FormLayout form = new FormLayout();
         panel.setLayout(new GridBagLayout());
         getContentPane().setLayout(new BorderLayout());
         add(panel, BorderLayout.NORTH);
@@ -78,18 +112,28 @@ public class UpdateBetDialog extends JDialog {
         title.setHorizontalAlignment(SwingConstants.CENTER);
         add(title, BorderLayout.PAGE_START);
 
+        form.addLabel("Bet Type",panel);
+        form.addLastField(betType,panel);
+
         form.addLabel("Bet Amount", panel);
         form.addLastField(amount, panel);
 
+        form.addLabelC(suitLabel, panel);
+        suitLabel.setVisible(false);
+        form.addLastField(suit, panel);
+        suit.setVisible(false);
+
+        betType.addActionListener(this::actionPerformed);
+
         submit = new JButton("Submit");
         submit.setBorder(new EmptyBorder(10,10,10,10));
-        form.addLastField(submit, panel);
+        form.addFullField(submit, panel);
         submit.addActionListener(this::actionPerformed);
 
         panel.setBorder(new EmptyBorder(10, 10, 10, 10));
         getContentPane().add(new BackgroundImage().bImg());
 
-        setSize(780,300);
+        panel.setSize(780,1000);
 
         getContentPane().add(panel);
         pack();

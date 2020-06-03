@@ -23,3 +23,11 @@ J
 src/view/PlayersPanel.java,7\2\72d192cd87eecd774dd0b7a861e3c044cb1c1861
 G
 src/view/GamePanel.java,f\7\f76bfe503af2bd75cf8756b095b0097be9b4bbb8
+S
+#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
+K
+.idea/libraries/Javadoc.xml,6\7\67d5145a9be404e8e17e69cc963c8ce20c8cdfa2
+M
+.idea/libraries/validator.xml,1\3\136468d610fceb620cdaed77054fef9b79c4ddde
+H
+Assignment3_Refactor.iml,a\0\a00808daac330b8a24dffe18ad70b8db9b30ffde

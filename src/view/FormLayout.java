@@ -12,6 +12,7 @@ public class FormLayout {
     private GridBagConstraints lastConstraints = null;
     private GridBagConstraints middleConstraints = null;
     private GridBagConstraints labelConstraints = null;
+    private GridBagConstraints fullConstraints = null;
 
     /**
      * Instantiates a new Form layout.
@@ -54,6 +55,15 @@ public class FormLayout {
         // Give these as little space as necessary
         labelConstraints.weightx = 0.0;
         labelConstraints.gridwidth = 1;
+
+        fullConstraints = (GridBagConstraints) lastConstraints.clone();
+
+        // Give the "last" component the remainder of the row
+        fullConstraints.gridwidth = GridBagConstraints.LINE_END;
+
+        // Add a little padding
+        fullConstraints.insets = new Insets(1, 1, 1, 1);
+
     }
 
     /**
@@ -68,6 +78,13 @@ public class FormLayout {
         GridBagLayout gbl = (GridBagLayout) parent.getLayout();
         c.setFont(new Font("Arial", Font.PLAIN, 15));
         gbl.setConstraints(c, lastConstraints);
+        parent.add(c);
+    }
+
+    public void addFullField(Component c, Container parent) {
+        GridBagLayout gbl = (GridBagLayout) parent.getLayout();
+        c.setFont(new Font("Arial", Font.PLAIN, 15));
+        gbl.setConstraints(c, fullConstraints);
         parent.add(c);
     }
 

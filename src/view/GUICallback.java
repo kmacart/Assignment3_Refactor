@@ -1,9 +1,9 @@
-package model;
+package view;
 
+import model.Player;
 import model.card.Card;
 import model.card.Deck;
 import model.card.Hand;
-import view.GameCallback;
 
 import javax.swing.*;
 import java.beans.PropertyChangeListener;
