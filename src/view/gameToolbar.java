@@ -35,8 +35,6 @@ public class gameToolbar extends JMenuBar {
                                           int confirmnew = JOptionPane.showConfirmDialog(frame,"Start a new game?");
                                           if (confirmnew == 0) {
                                               frame.setVisible(false);
-//                                              JFrame inprogress = new InProgressGame().inProgressGame();
-//                                              inprogress.setVisible(true);
                                           }
                                       }
                                   }

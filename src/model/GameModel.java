@@ -16,7 +16,6 @@ public class GameModel {
         delay = time;
     }
 
-
     public GameModel() {
         this.gameEngine = new GameEngineImpl();
         this.callback = new GUICallback();
@@ -37,18 +36,25 @@ public class GameModel {
         gameEngine.addPlayer(player);
     }
 
-    public void dealPlayer(Player player, int delay) {
-        new Thread()
-        {
+    public void newGame() {
+        gameEngine.resetAllBetsAndHands();
+        this.callback.newGame();
+    }
+
+    public void changePlayer(String playerName) {
+        this.callback.changePlayer(playerName);
+    }
+
+    public void dealPlayer(Player player) {
+        new Thread() {
             @Override
-            public void run()
-            {
+            public void run() {
                 gameEngine.dealPlayer(player.getId(), delay);
             }
         }.start();
     }
 
-    public void dealHouse(int delay) {
+    public void dealHouse() {
         new Thread()
         {
             @Override

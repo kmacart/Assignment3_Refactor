@@ -48,7 +48,6 @@ public class ResultsPanel extends JPanel implements PropertyChangeListener {
         if (evt.getPropertyName().equals(GUICallback.HOUSE_BUST)) {
             Hand houseHand = (Hand) evt.getNewValue();
             showPlayerResults(houseHand);
-            model.getGameEngine().resetAllBetsAndHands();
             validate();
         }
     }

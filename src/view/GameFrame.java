@@ -15,6 +15,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
     private GameModel model;
 
     public GameFrame(GameModel model) {
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.model = model;
 
         setTitle("Blackjack");
@@ -22,6 +23,7 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
         setLayout(new BorderLayout());
 
         setJMenuBar(new GameMenu(model));
+        this.add(new navToolbar(model),BorderLayout.PAGE_START);
         this.add(new PlayersPanel(model), BorderLayout.WEST);
         this.add(new GamePanel(model), BorderLayout.CENTER);
         model.getCallBack().addPropertyChangeListener(this);

@@ -12,13 +12,12 @@ import java.util.Collection;
 public class GameMenu extends JMenuBar implements PropertyChangeListener {
     private JMenu playerInfo = new JMenu("Players");
 
-    public GameMenu(GameModel model)
-    {
+    public GameMenu(GameModel model) {
         // File menu
-        JMenu file = new JMenu("File");
-        file.setMnemonic(KeyEvent.VK_F);
+        JMenu file = new JMenu("Game");
+        file.setMnemonic(KeyEvent.VK_G);
 
-        JMenuItem exit = new JMenuItem("Exit");
+        JMenuItem exit = new JMenuItem("Quit");
         exit.setMnemonic(KeyEvent.VK_E);
         exit.addActionListener(e -> {System.exit(0);});
         file.add(exit);
@@ -31,9 +30,6 @@ public class GameMenu extends JMenuBar implements PropertyChangeListener {
         JMenuItem addPlayer = new JMenuItem("Add Player");
         addPlayer.addActionListener(e -> new AddPlayerDialog(model));
         players.add(addPlayer);
-
-        JMenuItem removePlayer = new JMenuItem("Remove Player");
-        players.add(removePlayer);
 
         Collection<Player> allPlayers = model.getGameEngine().getAllPlayers();
         for (Player player: allPlayers)
@@ -62,21 +58,6 @@ public class GameMenu extends JMenuBar implements PropertyChangeListener {
             playerMenu.add(playerStats);
             playerInfo.add(playerMenu);
         }
-
-        if(evt.getPropertyName() == GUICallback.PLAYER_REMOVED) {
-            Player player = (Player) evt.getNewValue();
-
-            MenuElement[] elements = playerInfo.getSubElements();
-            for (int i=0; i < playerInfo.getItemCount(); i++)
-            {
-                JMenuItem item = playerInfo.getItem(i);
-                if (item.getText() == player.getName()) {
-                    playerInfo.remove(i);
-                }
-            }
-
-        }
-
 
     }
 }

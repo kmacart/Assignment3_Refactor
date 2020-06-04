@@ -5,7 +5,7 @@ import view.GameFrame;
 
 import javax.swing.*;
 
-public class GameApp {
+public class GuiCardGame {
     private static GameModel gameModel;
 
     public static void main(String[] args) {

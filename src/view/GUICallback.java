@@ -24,6 +24,9 @@ public class GUICallback implements GameCallback {
     public static final String PLAYER_BUST = "Player Bust";
     public static final String HOUSE_BUST = "House Bust";
     public static final String BET_UPDATED = "Bet Updated";
+    public static final String CHANGE_PLAYER = "Change Player";
+    public static final String NEW_DECK = "New Deck";
+    public static final String NEW_GAME = "New Game";
 
     @Override
     public void addPlayer(Player player) {
@@ -44,7 +47,11 @@ public class GUICallback implements GameCallback {
 
     @Override
     public void newDeck(Deck deck) {
-        showMessageDialog(JOptionPane.getRootFrame(), "A new deck has been created", "Deck created",JOptionPane.INFORMATION_MESSAGE);
+        this.pcs.firePropertyChange(NEW_DECK, null, null);
+    }
+
+    public void newGame() {
+        this.pcs.firePropertyChange(NEW_GAME, null, null);
     }
 
     @Override
@@ -62,6 +69,10 @@ public class GUICallback implements GameCallback {
     public void houseCard(Hand houseHand, Card card) {
         String path = "/images/DeckOfCards/" + card.getValue() + "_of_" + card.getSuit() + ".png";
         this.pcs.firePropertyChange(HOUSE_DEAL, null, houseHand);
+    }
+
+    public void changePlayer(String player) {
+        this.pcs.firePropertyChange(CHANGE_PLAYER, null, player);
     }
 
     @Override
