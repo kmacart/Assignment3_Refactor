@@ -18,8 +18,10 @@ public class GuiCardGame {
      */
     public static void main(String[] args) {
 
+        // Create a new gameModel and save it in the static class-wide variable.
         gameModel = new GameModel();
 
+        // Create a new thread that has the GUI elements running.
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {

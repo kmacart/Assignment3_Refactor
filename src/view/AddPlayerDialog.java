@@ -16,57 +16,30 @@ public class AddPlayerDialog extends JDialog {
     // The model. This has been parsed into the constructor. It allows us to get to the game engine and peform some basic functionalities.
     private GameModel model;
 
-    /**
-     * The Points.
-     */
     // A JTextField that allows the player to enter in how many points they want.
     JTextField points = new JTextField("Enter player points");
 
-    /**
-     * The Title.
-     */
     // The title of the jdialog.
     JLabel title = new JLabel("Add Player");
 
-    /**
-     * The Icons.
-     */
     // The overarching button group that allows the player to select an icon.
     ButtonGroup icons = new ButtonGroup();
 
-    /**
-     * The Icon 1.
-     */
     // The Totoro icon.
     JRadioButton icon1 = new JRadioButton("Totoro");
 
-    /**
-     * The Icon 2.
-     */
     // The Snoopy icon
     JRadioButton icon2 = new JRadioButton("Snoopy");
 
-    /**
-     * The Icon 3.
-     */
     // The Jiji Icon (Kiki's Delivery Service)
     JRadioButton icon3 = new JRadioButton("Jiji");
 
-    /**
-     * The Icon 4.
-     */
     // The Korra Icon.
     JRadioButton icon4 = new JRadioButton("Korra");
 
-    /**
-     * The Submit.
-     */
     // The Submit button.
     JButton submit;
 
-    /**
-     * The Name.
-     */
     // A JTextField that allows the player to enter in their name.
     JTextField name = new JTextField();
 
@@ -89,6 +62,7 @@ public class AddPlayerDialog extends JDialog {
         int pPoints = 0; // The player's points.
 
         do {
+            // Save the user's icon choice in a variable.
             if (icon1.isSelected()) {
                 iconNo = 1;
             } else if (icon2.isSelected()) {
