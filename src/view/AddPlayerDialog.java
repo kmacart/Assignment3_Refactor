@@ -190,7 +190,7 @@ public class AddPlayerDialog extends JDialog {
 
         // Create a new JPanel using the gridlayout above to store my icons in.
         JPanel iconPane = new JPanel(gl);
-        iconPane.setPreferredSize(new Dimension(440, 100));
+        iconPane.setPreferredSize(new Dimension(470, 100));
 
         // Add the icons to the JPanel.
         iconPane.add(icon1);

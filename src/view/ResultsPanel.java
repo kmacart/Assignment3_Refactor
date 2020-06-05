@@ -9,14 +9,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
 /**
  * The type Results panel.
  */
 public class ResultsPanel extends JPanel implements PropertyChangeListener {
     private GameModel model;
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     /**
      * Instantiates a new Results panel.
@@ -26,7 +24,6 @@ public class ResultsPanel extends JPanel implements PropertyChangeListener {
     public ResultsPanel(GameModel model) {
         this.model = model;
         model.getCallBack().addPropertyChangeListener(this);
-
     }
 
     private void showPlayerResults(Hand houseHand) {
@@ -35,17 +32,25 @@ public class ResultsPanel extends JPanel implements PropertyChangeListener {
             if (player.getBet() != Bet.NO_BET) {
                 JPanel resultPanel = new JPanel();
                 resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.PAGE_AXIS));
+
                 JLabel name = new JLabel(player.getName());
-                JLabel result = new JLabel("Result: " + player.getBet().getResult());
+                name.setFont(new Font("Monaco", Font.BOLD, 20));
+                name.setHorizontalAlignment(SwingConstants.CENTER);
+
+                JLabel result = new JLabel("Result: " + player.getBet().getResult().toString().toLowerCase());
+                result.setFont(new Font("Monaco", Font.PLAIN, 16));
+
                 JLabel betOutcome = new JLabel("Bet Outcome: " + player.getBet().getOutcome());
+                betOutcome.setFont(new Font("Monaco", Font.PLAIN, 16));
+
+                resultPanel.setBackground(Color.GRAY);
+
                 resultPanel.add(name);
                 resultPanel.add(result);
                 resultPanel.add(betOutcome);
-                add(resultPanel);
-                //                this.pcs.firePropertyChange(BET_UPDATED,null,player);
+                add(resultPanel, BorderLayout.CENTER);
             }
         }
-        setBackground(Color.BLUE);
         setVisible(true);
     }
 

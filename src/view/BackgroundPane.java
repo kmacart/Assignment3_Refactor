@@ -12,12 +12,6 @@ public class BackgroundPane extends JPanel {
     private BufferedImage img;
     private BufferedImage scaled;
 
-    /**
-     * Instantiates a new Background pane.
-     */
-    public BackgroundPane() {
-    }
-
     @Override
     public Dimension getPreferredSize() {
         return img == null ? super.getPreferredSize() : new Dimension(img.getWidth(), img.getHeight());
@@ -50,7 +44,7 @@ public class BackgroundPane extends JPanel {
         super.paintComponent(g);
         if (scaled != null) {
             int x = (getWidth() - scaled.getWidth()) / 2;
-            int y = (getHeight() - scaled.getHeight()) / 2;
+            int y = (getHeight() - scaled.getHeight());
             g.drawImage(scaled, x, y, this);
         }
     }

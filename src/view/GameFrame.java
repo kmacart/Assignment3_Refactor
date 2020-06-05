@@ -28,13 +28,13 @@ public class GameFrame extends JFrame implements PropertyChangeListener {
 
         setTitle("Blackjack");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        try {
-            BackgroundPane background = new BackgroundPane();
-            background.setBackground(ImageIO.read(new File("images/blackjack_background.png")));
-            setContentPane(background);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+try {
+    BackgroundPane background = new BackgroundPane();
+    background.setBackground(ImageIO.read(new File("images/blackjack_background.png")));
+    setContentPane(background);
+} catch (IOException e) {
+    e.printStackTrace();
+}
 
         setLayout(new BorderLayout());
 

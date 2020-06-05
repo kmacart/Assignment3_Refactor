@@ -7,7 +7,6 @@ import model.card.Hand;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -15,6 +14,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import static java.awt.BorderLayout.PAGE_END;
+import static javax.swing.SwingConstants.CENTER;
 
 /**
  * The type Game panel.
@@ -53,13 +53,24 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
         this.model = model;
         setSize(1150, 900);
 
+        setLayout(new BorderLayout());
+
         createPlayersCardLayout();
-        container.add(playersPanel, BorderLayout.PAGE_START);
+        container.add(playersPanel, BorderLayout.CENTER);
         resultsPanel = new ResultsPanel(model);
         setOpaque(false);
+        setBorder(new EmptyBorder(50, 50, 50, 50));
         resultsPanel.setVisible(false);
         container.add(resultsPanel, PAGE_END);
-        add(container);
+        add(container, BorderLayout.NORTH);
+        container.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        playerScore.setFont(new Font("Monaco", Font.BOLD, 20));
+        playerScore.setBorder(new EmptyBorder(10, 10, 10, 10));
+        playerScore.setHorizontalAlignment(CENTER);
+        resultsPanel.setBackground(Color.GRAY);
+        container.setBackground(Color.GRAY);
+        container.add(playerScore, BorderLayout.PAGE_START);
 
         model.getCallBack().addPropertyChangeListener(this);
     }
@@ -67,7 +78,6 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
     private void createPlayersCardLayout() {
         playersPanel.add(pCards, BorderLayout.CENTER);
         playerScore.setText("Player Score: 0");
-        playersPanel.add(playerScore, PAGE_END);
     }
 
     private void setCurrentPlayer(String playerName) {
@@ -96,14 +106,14 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
             String cardSuit = currentCard.getSuit().toString();
 
             Image cardImg = new ImageIcon("images/DeckOfCards/" + cardValue + "_of_" + cardSuit + ".png").getImage();
-            Image temp = cardImg.getScaledInstance(120,160,Image.SCALE_SMOOTH);
+            Image temp = cardImg.getScaledInstance(120, 160, Image.SCALE_SMOOTH);
             ImageIcon cardIcon = new ImageIcon(temp);
             JLabel card = new JLabel();
-            JLabel cardContainer = new JLabel();
-            cardContainer.setBorder(new EmptyBorder(5,5,5,5));
-            card.setBorder(new LineBorder(Color.black,1));
             card.setIcon(cardIcon);
             panel.add(card);
+
+            panel.setBackground(Color.GRAY);
+            card.setBackground(Color.GRAY);
         }
     }
 

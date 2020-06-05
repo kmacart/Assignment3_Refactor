@@ -17,29 +17,13 @@ import static javax.swing.JOptionPane.showMessageDialog;
  * The type Nav toolbar.
  */
 public class navToolbar extends JPanel implements PropertyChangeListener {
-    /**
-     * The Deal all.
-     */
+
+    JButton addPlayer = new JButton("Add Player");
     JButton dealAll = new JButton("Deal All");
-    /**
-     * The Deal house.
-     */
     JButton dealHouse = new JButton("Deal House");
-    /**
-     * The New game.
-     */
     JButton newGame = new JButton("New Game");
-    /**
-     * The Speed.
-     */
     JComboBox speed = new JComboBox();
-    /**
-     * The Cb.
-     */
     JComboBox cb = new JComboBox();
-    /**
-     * The Model.
-     */
     GameModel model;
 
     /**
@@ -49,11 +33,23 @@ public class navToolbar extends JPanel implements PropertyChangeListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == dealAll) {
-            for (Player player : model.getGameEngine().getAllPlayers()) {
-                model.dealPlayer(player);
+            if (model.getGameEngine().getAllPlayers().isEmpty()) {
+                showMessageDialog(JOptionPane.getRootFrame(), "At least one player must exist and have a bet before dealing the house.", "No Players.", JOptionPane.ERROR_MESSAGE);
+            } else {
+                int no_bet = 0;
+                for (Player player : model.getGameEngine().getAllPlayers()) {
+                    if (player.getBet() != Bet.NO_BET && player.getHand().getNumberOfCards() == 0) {
+                        model.dealPlayer(player);
+                    } else if (player.getBet() == Bet.NO_BET) {
+                        no_bet++;
+                    }
+                }
+                if (no_bet == model.getGameEngine().getAllPlayers().size()) {
+                    showMessageDialog(JOptionPane.getRootFrame(), "At least one player must place a bet before dealing to the house.", "No Bets", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    processDealHouse();
+                }
             }
-
-            model.dealHouse();
         } else if (e.getSource() == dealHouse) {
             processDealHouse();
         } else if (e.getSource() == cb) {
@@ -72,10 +68,10 @@ public class navToolbar extends JPanel implements PropertyChangeListener {
     }
 
     private void processDealHouse() {
-        Boolean outstandingBets = false;
+        boolean outstandingBets = false;
 
         if (model.getGameEngine().getAllPlayers().isEmpty()) {
-            showMessageDialog(JOptionPane.getRootFrame(), "At least one player must place a bet before dealing the house.", "No Player Bets.",JOptionPane.ERROR_MESSAGE);
+            showMessageDialog(JOptionPane.getRootFrame(), "At least one player must exist and have a bet before dealing the house.", "No Players.", JOptionPane.ERROR_MESSAGE);
         } else {
             int num_no_bet = 0;
             int num_players = 0;
@@ -103,12 +99,14 @@ public class navToolbar extends JPanel implements PropertyChangeListener {
      * @param ge the ge
      */
     public navToolbar(GameModel ge) {
-
-        speed.addItem("Slow");
-        speed.addItem("Medium");
-        speed.addItem("Fast");
+        speed.addItem("Slow Deal Speed");
+        speed.addItem("Medium Deal Speed");
+        speed.addItem("Fast Deal Speed");
 
         speed.addActionListener(this::actionPerformed);
+
+        addPlayer.addActionListener(e -> new AddPlayerDialog(model));
+        add(addPlayer);
 
         this.setBackground(Color.DARK_GRAY);
         model = ge;

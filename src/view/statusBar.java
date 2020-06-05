@@ -6,23 +6,29 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * The type Status bar.
  */
-public class statusBar extends JMenuBar {
+public class statusBar extends JMenuBar implements PropertyChangeListener {
+    private JLabel noPlayers;
+    private GameModel gameModel;
+
     /**
      * Instantiates a new Status bar.
      *
      * @param model the model
      */
     public statusBar(GameModel model) {
+        gameModel = model;
         setLayout(new GridLayout(1, 3));
 
         JPanel noPlayersC = new JPanel();
         noPlayersC.setBackground(Color.GRAY);
+        noPlayers = new JLabel("# of Players: " + model.getGameEngine().getAllPlayers().size());
         noPlayersC.setBorder(new LineBorder(Color.black, 1));
-        JLabel noPlayers = new JLabel("# of Players: " + model.getGameEngine().getAllPlayers().size());
         noPlayers.setHorizontalAlignment(SwingConstants.CENTER);
         noPlayers.setBorder(new EmptyBorder(5, 5, 5, 5));
         noPlayersC.add(noPlayers);
@@ -46,7 +52,16 @@ public class statusBar extends JMenuBar {
         timeC.add(time);
         add(timeC);
 
-
+        model.getCallBack().addPropertyChangeListener(this);
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(GUICallback.NEW_PLAYER_ADDED)) {
+            noPlayers.setText("# of Players: " + gameModel.getGameEngine().getAllPlayers().size());
+            noPlayers.repaint();
+            noPlayers.revalidate();
+        }
+
+    }
 }

@@ -145,8 +145,15 @@ public class PlayersPanel extends JPanel implements PropertyChangeListener {
             validate();
         }
 
-        if(evt.getPropertyName() == GUICallback.BET_UPDATED) {
-            //TODO FIX THIS SO NOT REMOVING ALL AND RE_ADDING
+        if (evt.getPropertyName().equals(GUICallback.BET_UPDATED)) {
+            removeAll();
+            Collection<Player> players = model.getGameEngine().getAllPlayers();
+            for (Player player : players) {
+                addPlayer(player);
+            }
+            validate();
+        }
+        if (evt.getPropertyName().equals(GUICallback.HOUSE_BUST)) {
             removeAll();
             Collection<Player> players = model.getGameEngine().getAllPlayers();
             for (Player player : players) {

@@ -52,7 +52,6 @@ public class GameMenu extends JMenuBar implements PropertyChangeListener {
         players.add(playerInfo);
         add(players);
 
-
         model.getCallBack().addPropertyChangeListener(this);
 
     }

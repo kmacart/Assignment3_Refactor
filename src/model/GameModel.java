@@ -9,7 +9,7 @@ import view.GUICallback;
 public class GameModel {
     private GameEngine gameEngine;
     private GUICallback callback;
-    private int delay;
+    private int delay = 1500;
     private Player currentPlayer = null;
 
     /**
