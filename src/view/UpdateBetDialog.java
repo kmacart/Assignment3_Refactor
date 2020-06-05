@@ -66,14 +66,14 @@ public class UpdateBetDialog extends JDialog {
                         try {
                             this.model.getGameEngine().placeBet(player.getId(), pAmount, suits[suit.getSelectedIndex()]);
                         } catch (IllegalArgumentException e1) {
-                            JOptionPane.showMessageDialog(this,player.getName() + " does not have enough points to place this bet.","Error",JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                         }
 
                     } else {
                         try {
                             this.model.getGameEngine().placeBet(player.getId(), pAmount);
                         } catch (IllegalArgumentException e2) {
-                            JOptionPane.showMessageDialog(this,player.getName() + " does not have enough points to place this bet.","Error",JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, e2.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 }
@@ -96,6 +96,9 @@ public class UpdateBetDialog extends JDialog {
 
     /**
      * Instantiates a new Add player.
+     *
+     * @param model  the model
+     * @param player the player
      */
     public UpdateBetDialog(GameModel model, Player player) {
         this.model = model;

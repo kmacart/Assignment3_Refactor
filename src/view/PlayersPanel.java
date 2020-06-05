@@ -17,30 +17,43 @@ import java.util.Collection;
 import static java.awt.BorderLayout.PAGE_START;
 import static javax.swing.JOptionPane.showMessageDialog;
 
+/**
+ * The type Players panel.
+ */
 public class PlayersPanel extends JPanel implements PropertyChangeListener {
     private GameModel model;
 
+    /**
+     * Instantiates a new Players panel.
+     *
+     * @param model the model
+     */
     public PlayersPanel(GameModel model) {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.model = model;
         Collection<Player> players = model.getGameEngine().getAllPlayers();
-        for (Player player : players)
-        {
+        for (Player player : players) {
             addPlayer(player);
         }
         setBackground(Color.lightGray);
         model.getCallBack().addPropertyChangeListener(this);
+        setOpaque(false);
     }
 
+    /**
+     * Add player.
+     *
+     * @param player the player
+     */
     public void addPlayer(Player player) {
         JPanel mainPanel = new JPanel();
         mainPanel.setBackground(Color.LIGHT_GRAY);
 
         JPanel pPanelBorder = new JPanel();
-        pPanelBorder.setBorder(new LineBorder(Color.black,5));
+        pPanelBorder.setBorder(new LineBorder(Color.black, 5));
 
         JPanel playerPanel = new JPanel(new BorderLayout()); // The main panel.
-        playerPanel.setBorder(new EmptyBorder(10,10,10,10));
+        playerPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         JLabel pName = new JLabel(player.getName());
         pName.setFont(new Font("Monaco",Font.BOLD,16));
@@ -98,8 +111,7 @@ public class PlayersPanel extends JPanel implements PropertyChangeListener {
             public void actionPerformed(ActionEvent e) {
                 if (player.getBet() == Bet.NO_BET) {
                     showMessageDialog(JOptionPane.getRootFrame(), "A bet needs to be placed before cards can be dealt.", "No Bet",JOptionPane.ERROR_MESSAGE);
-                }
-                else {
+                } else {
                     model.dealPlayer(player);
                 }
             }
@@ -127,8 +139,7 @@ public class PlayersPanel extends JPanel implements PropertyChangeListener {
         if(evt.getPropertyName() == GUICallback.PLAYER_REMOVED) {
             removeAll();
             Collection<Player> players = model.getGameEngine().getAllPlayers();
-            for (Player player : players)
-            {
+            for (Player player : players) {
                 addPlayer(player);
             }
             validate();

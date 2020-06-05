@@ -13,14 +13,40 @@ import java.util.Collection;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
+/**
+ * The type Nav toolbar.
+ */
 public class navToolbar extends JPanel implements PropertyChangeListener {
+    /**
+     * The Deal all.
+     */
     JButton dealAll = new JButton("Deal All");
+    /**
+     * The Deal house.
+     */
     JButton dealHouse = new JButton("Deal House");
+    /**
+     * The New game.
+     */
     JButton newGame = new JButton("New Game");
+    /**
+     * The Speed.
+     */
     JComboBox speed = new JComboBox();
+    /**
+     * The Cb.
+     */
     JComboBox cb = new JComboBox();
+    /**
+     * The Model.
+     */
     GameModel model;
 
+    /**
+     * Action performed.
+     *
+     * @param e the e
+     */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == dealAll) {
             for (Player player : model.getGameEngine().getAllPlayers()) {
@@ -28,14 +54,11 @@ public class navToolbar extends JPanel implements PropertyChangeListener {
             }
 
             model.dealHouse();
-        }
-        else if (e.getSource() == dealHouse) {
+        } else if (e.getSource() == dealHouse) {
             processDealHouse();
-        }
-        else if (e.getSource() == cb) {
+        } else if (e.getSource() == cb) {
             model.changePlayer(cb.getSelectedItem().toString());
-        }
-        else if (e.getSource() == newGame) {
+        } else if (e.getSource() == newGame) {
             model.newGame();
         } else if (e.getSource() == speed) {
             if (speed.getSelectedIndex() == 0) {
@@ -53,8 +76,7 @@ public class navToolbar extends JPanel implements PropertyChangeListener {
 
         if (model.getGameEngine().getAllPlayers().isEmpty()) {
             showMessageDialog(JOptionPane.getRootFrame(), "At least one player must place a bet before dealing the house.", "No Player Bets.",JOptionPane.ERROR_MESSAGE);
-        }
-        else {
+        } else {
             int num_no_bet = 0;
             int num_players = 0;
             for (Player player: model.getGameEngine().getAllPlayers()) {
@@ -68,14 +90,18 @@ public class navToolbar extends JPanel implements PropertyChangeListener {
                 }
             }
             if (num_no_bet == num_players) {
-                showMessageDialog(JOptionPane.getRootFrame(), "At least one player must place a bet before dealing the house.", "No Player Bets.",JOptionPane.ERROR_MESSAGE);
-            }
-            else if (!outstandingBets) {
+                showMessageDialog(JOptionPane.getRootFrame(), "At least one player must place a bet before dealing the house.", "No Player Bets.", JOptionPane.ERROR_MESSAGE);
+            } else if (!outstandingBets) {
                 model.dealHouse();
             }
         }
     }
 
+    /**
+     * Instantiates a new Nav toolbar.
+     *
+     * @param ge the ge
+     */
     public navToolbar(GameModel ge) {
 
         speed.addItem("Slow");
@@ -105,29 +131,24 @@ public class navToolbar extends JPanel implements PropertyChangeListener {
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt)
-    {
-        if(evt.getPropertyName().equals(GUICallback.NEW_PLAYER_ADDED))
-        {
+    public void propertyChange(PropertyChangeEvent evt) {
+        if(evt.getPropertyName().equals(GUICallback.NEW_PLAYER_ADDED)) {
             Player player = (Player) evt.getNewValue();
             cb.addItem(player.getName());
             validate();
         }
 
-        if(evt.getPropertyName().equals(GUICallback.PLAYER_REMOVED))
-        {
+        if(evt.getPropertyName().equals(GUICallback.PLAYER_REMOVED)) {
             cb.removeAllItems();
             cb.addItem("House");
             Collection<Player> players = model.getGameEngine().getAllPlayers();
-            for (Player player : players)
-            {
+            for (Player player : players) {
                 cb.addItem(player.getName());
             }
             validate();
         }
 
-        if(evt.getPropertyName().equals(GUICallback.PLAYER_DEAL))
-        {
+        if(evt.getPropertyName().equals(GUICallback.PLAYER_DEAL)) {
             Player player = (Player) evt.getNewValue();
             if (cb.getSelectedItem() != player.getName()) {
                 cb.setSelectedItem(player.getName());
@@ -135,8 +156,7 @@ public class navToolbar extends JPanel implements PropertyChangeListener {
             validate();
         }
 
-        if(evt.getPropertyName().equals(GUICallback.HOUSE_DEAL))
-        {
+        if(evt.getPropertyName().equals(GUICallback.HOUSE_DEAL)) {
             if (cb.getSelectedItem() != "House") {
                 cb.setSelectedItem("House");
             }

@@ -16,22 +16,47 @@ import java.util.Iterator;
 
 import static java.awt.BorderLayout.PAGE_END;
 
+/**
+ * The type Game panel.
+ */
 public class GamePanel extends JPanel implements PropertyChangeListener {
     private GameModel model;
+    /**
+     * The P cards.
+     */
     JPanel pCards = new JPanel(new GridLayout(1, 0));
     private Player currentPlayer;
     private Hand houseHand;
+    /**
+     * The Container.
+     */
     JPanel container = new JPanel(new BorderLayout());
+    /**
+     * The Players panel.
+     */
     JPanel playersPanel = new JPanel(new BorderLayout());
+    /**
+     * The Player score.
+     */
     JLabel playerScore = new JLabel();
+    /**
+     * The Results panel.
+     */
     JPanel resultsPanel;
 
+    /**
+     * Instantiates a new Game panel.
+     *
+     * @param model the model
+     */
     public GamePanel(GameModel model) {
         this.model = model;
         setSize(1150, 900);
+
         createPlayersCardLayout();
-        container.add(playersPanel,BorderLayout.PAGE_START);
+        container.add(playersPanel, BorderLayout.PAGE_START);
         resultsPanel = new ResultsPanel(model);
+        setOpaque(false);
         resultsPanel.setVisible(false);
         container.add(resultsPanel, PAGE_END);
         add(container);
@@ -45,13 +70,11 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
         playersPanel.add(playerScore, PAGE_END);
     }
 
-    private void setCurrentPlayer(String playerName)
-    {
+    private void setCurrentPlayer(String playerName) {
         currentPlayer = null;
         Collection<Player> players = model.getGameEngine().getAllPlayers();
         Iterator<Player> playersIter = players.iterator();
-        while (currentPlayer == null && playersIter.hasNext())
-        {
+        while (currentPlayer == null && playersIter.hasNext()) {
             Player player = playersIter.next();
             if (player.getName().equals(playerName)) {
                 currentPlayer = player;
@@ -68,8 +91,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
 
         panel.removeAll();
 
-        for (Card currentCard: cards)
-        {
+        for (Card currentCard: cards) {
             String cardValue = currentCard.getRank().toString();
             String cardSuit = currentCard.getSuit().toString();
 
@@ -86,8 +108,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt)
-    {
+    public void propertyChange(PropertyChangeEvent evt) {
         if(evt.getPropertyName().equals(GUICallback.NEW_PLAYER_ADDED)) {
             Player player = (Player) evt.getNewValue();
             if (currentPlayer == null) {
@@ -95,16 +116,14 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
             }
         }
 
-        if(evt.getPropertyName().equals(GUICallback.PLAYER_DEAL))
-        {
+        if(evt.getPropertyName().equals(GUICallback.PLAYER_DEAL)) {
             Player player = (Player) evt.getNewValue();
             updateCards(player.getHand().getCards(), pCards);
             playerScore.setText("Player Score: ".concat(Integer.toString(currentPlayer.getHand().getScore())));
             validate();
         }
 
-        if(evt.getPropertyName().equals(GUICallback.HOUSE_DEAL))
-        {
+        if(evt.getPropertyName().equals(GUICallback.HOUSE_DEAL)) {
             houseHand = (Hand) evt.getNewValue();
             updateCards(houseHand.getCards(), pCards);
             playerScore.setText("Player Score: ".concat(Integer.toString(houseHand.getScore())));
@@ -122,13 +141,11 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
                 if (houseHand != null && houseHand.getNumberOfCards() > 0) {
                     updateCards(houseHand.getCards(), pCards);
                     playerScore.setText("Player Score: ".concat(Integer.toString(houseHand.getScore())));
-                }
-                else {
+                } else {
                     pCards.removeAll();
                     playerScore.setText("Player Score: 0");
                 }
-            }
-            else {
+            } else {
                 setCurrentPlayer(playerName);
             }
             validate();

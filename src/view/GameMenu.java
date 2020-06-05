@@ -9,9 +9,17 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
 
+/**
+ * The type Game menu.
+ */
 public class GameMenu extends JMenuBar implements PropertyChangeListener {
     private JMenu playerInfo = new JMenu("Players");
 
+    /**
+     * Instantiates a new Game menu.
+     *
+     * @param model the model
+     */
     public GameMenu(GameModel model) {
         // File menu
         JMenu file = new JMenu("Game");
@@ -19,7 +27,9 @@ public class GameMenu extends JMenuBar implements PropertyChangeListener {
 
         JMenuItem exit = new JMenuItem("Quit");
         exit.setMnemonic(KeyEvent.VK_E);
-        exit.addActionListener(e -> {System.exit(0);});
+        exit.addActionListener(e -> {
+            System.exit(0);
+        });
         file.add(exit);
         add(file);
 
@@ -32,8 +42,7 @@ public class GameMenu extends JMenuBar implements PropertyChangeListener {
         players.add(addPlayer);
 
         Collection<Player> allPlayers = model.getGameEngine().getAllPlayers();
-        for (Player player: allPlayers)
-        {
+        for (Player player: allPlayers) {
             JMenu playerMenu = new JMenu(player.getName());
             JMenuItem playerStats = new JMenuItem(playerMenu.toString());
             playerMenu.add(playerStats);

@@ -81,6 +81,12 @@ public class FormLayout {
         parent.add(c);
     }
 
+    /**
+     * Add full field.
+     *
+     * @param c      the c
+     * @param parent the parent
+     */
     public void addFullField(Component c, Container parent) {
         GridBagLayout gbl = (GridBagLayout) parent.getLayout();
         c.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -88,6 +94,12 @@ public class FormLayout {
         parent.add(c);
     }
 
+    /**
+     * Add last field.
+     *
+     * @param c      the c
+     * @param parent the parent
+     */
     public void addLastField(Container c, Container parent) {
         GridBagLayout gbl = (GridBagLayout) parent.getLayout();
         c.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -110,6 +122,12 @@ public class FormLayout {
         parent.add(c);
     }
 
+    /**
+     * Add label c.
+     *
+     * @param c      the c
+     * @param parent the parent
+     */
     public void addLabelC(Container c, Container parent) {
         GridBagLayout gbl = (GridBagLayout) parent.getLayout();
         gbl.setConstraints(c, labelConstraints);

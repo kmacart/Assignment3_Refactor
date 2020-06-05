@@ -14,6 +14,7 @@ public class gameToolbar extends JMenuBar {
      * Tool bar j menu bar.
      *
      * @param frame the frame
+     * @param model the model
      * @return the j menu bar
      */
     public gameToolbar(JFrame frame, GameEngine model) {

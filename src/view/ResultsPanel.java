@@ -11,12 +11,18 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import static view.GUICallback.BET_UPDATED;
-
+/**
+ * The type Results panel.
+ */
 public class ResultsPanel extends JPanel implements PropertyChangeListener {
     private GameModel model;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
+    /**
+     * Instantiates a new Results panel.
+     *
+     * @param model the model
+     */
     public ResultsPanel(GameModel model) {
         this.model = model;
         model.getCallBack().addPropertyChangeListener(this);
@@ -36,7 +42,7 @@ public class ResultsPanel extends JPanel implements PropertyChangeListener {
                 resultPanel.add(result);
                 resultPanel.add(betOutcome);
                 add(resultPanel);
-                this.pcs.firePropertyChange(BET_UPDATED,null,player);
+                //                this.pcs.firePropertyChange(BET_UPDATED,null,player);
             }
         }
         setBackground(Color.BLUE);
