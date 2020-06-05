@@ -1,20 +1,16 @@
 package view;
 
+import control.AddPlayerListener;
 import model.GameModel;
-import model.Player;
-import model.PlayerImpl;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 /**
  * The type Add player.
  */
 public class AddPlayerDialog extends JDialog {
-    // The model. This has been parsed into the constructor. It allows us to get to the game engine and peform some basic functionalities.
-    private GameModel model;
 
     // A JTextField that allows the player to enter in how many points they want.
     JTextField points = new JTextField("Enter player points");
@@ -55,40 +51,6 @@ public class AddPlayerDialog extends JDialog {
      *
      * <p>To remove anonymous inner classes, there is one actionPerformed that is referenced to from all ActionListeners within the class.</p>
      */
-    public void actionPerformed(ActionEvent e) {
-
-        // Declare all variables.
-        int iconNo; // The icon that the player chose
-        int pPoints = 0; // The player's points.
-
-        do {
-            // Save the user's icon choice in a variable.
-            if (icon1.isSelected()) {
-                iconNo = 1;
-            } else if (icon2.isSelected()) {
-                iconNo = 2;
-            } else if (icon3.isSelected()) {
-                iconNo = 3;
-            } else if (icon4.isSelected()) {
-                iconNo = 4;
-            } else {
-                iconNo = 0;
-            }
-
-            try {
-                pPoints = Integer.parseInt(points.getText());
-            } catch (NumberFormatException e1) {
-                JOptionPane.showMessageDialog(this, "Player Points must be a number.", "Error", JOptionPane.ERROR_MESSAGE);
-                error = true;
-            }
-
-            if (!error) {
-                Player player = new PlayerImpl("P" + (this.model.getGameEngine().getAllPlayers().size() + 1) + "-" + iconNo, name.getText(), pPoints);
-                this.model.addPlayer(player);
-            }
-        } while (error);
-        this.dispose();
-    }
 
     /**
      * Instantiates a new Add player dialog.
@@ -98,7 +60,6 @@ public class AddPlayerDialog extends JDialog {
      *              The constructor - it creates a new dialog box.
      */
     public AddPlayerDialog(GameModel model) {
-        this.model = model;
 
         // Set the layout of the parent frame to be GridBagLayout.
         setLayout(new GridBagLayout());
@@ -137,21 +98,26 @@ public class AddPlayerDialog extends JDialog {
         icon1.setSelectedIcon(img1border);
         icon1.setHorizontalAlignment(SwingConstants.CENTER);
         icon1.setSelected(true);
+        icon1.setActionCommand("Totoro");
 
         ImageIcon img2 = new ImageIcon("images/player_icon-2.png");
         ImageIcon img2border = new ImageIcon("images/player_icon-2_border.png");
         icon2.setIcon(img2);
         icon2.setSelectedIcon(img2border);
+        icon2.setActionCommand("Snoopy");
 
         ImageIcon img3 = new ImageIcon("images/player_icon-3.png");
         ImageIcon img3border = new ImageIcon("images/player_icon-3_border.png");
         icon3.setIcon(img3);
         icon3.setSelectedIcon(img3border);
+        icon3.setActionCommand("Jiji");
 
         ImageIcon img4 = new ImageIcon("images/player_icon-4.png");
         ImageIcon img4border = new ImageIcon("images/player_icon-4_border.png");
         icon4.setIcon(img4);
         icon4.setSelectedIcon(img4border);
+        icon4.setActionCommand("Korra");
+
 
         // Add the icons to the icon group.
         icons.add(icon1);
@@ -178,7 +144,7 @@ public class AddPlayerDialog extends JDialog {
         submit.setBorder(new EmptyBorder(10, 10, 10, 10));
         form.addLastField(submit, panel);
         // Add an action listener on the submit button that links to the actionPerformed method above.
-        submit.addActionListener(this::actionPerformed);
+        submit.addActionListener(new AddPlayerListener(icons, name, model, points, this));
 
         // Add an empty border onto the panel.
         panel.setBorder(new EmptyBorder(10, 10, 10, 10));
