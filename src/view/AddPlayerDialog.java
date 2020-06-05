@@ -16,10 +16,10 @@ public class AddPlayerDialog extends JDialog {
     JTextField points = new JTextField("Enter player points");
 
     // The title of the jdialog.
-    JLabel title = new JLabel("Add Player");
+    JLabel title;
 
     // The overarching button group that allows the player to select an icon.
-    ButtonGroup icons = new ButtonGroup();
+    ButtonGroup icons;
 
     // The Totoro icon.
     JRadioButton icon1 = new JRadioButton("Totoro");
@@ -38,19 +38,6 @@ public class AddPlayerDialog extends JDialog {
 
     // A JTextField that allows the player to enter in their name.
     JTextField name = new JTextField();
-
-    /**
-     * The Error.
-     */
-    // A boolean that states whether or not an error has occured.
-    boolean error = false;
-
-    /**
-     * Action performed.
-     * @param e the e
-     *
-     * <p>To remove anonymous inner classes, there is one actionPerformed that is referenced to from all ActionListeners within the class.</p>
-     */
 
     /**
      * Instantiates a new Add player dialog.
@@ -77,6 +64,7 @@ public class AddPlayerDialog extends JDialog {
         panel.setLayout(new GridBagLayout());
 
         // Make title look better and add it to the parent frame.
+        title = new JLabel("Add Player");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
         title.setSize(300, 40);
         title.setHorizontalAlignment(SwingConstants.CENTER);
@@ -120,6 +108,7 @@ public class AddPlayerDialog extends JDialog {
 
 
         // Add the icons to the icon group.
+        icons = new ButtonGroup();
         icons.add(icon1);
         icons.add(icon2);
         icons.add(icon3);
@@ -149,16 +138,13 @@ public class AddPlayerDialog extends JDialog {
         // Add an empty border onto the panel.
         panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        // Set the background image of the parent frame.
-        getContentPane().add(new BackgroundImage().bImg());
-
         // Set the size of the parent frame.
         setSize(780, 300);
 
         // Add the panel to the parent frame.
         getContentPane().add(panel);
 
-        // Display the jdialog
+        // Display the JDialog
         pack();
         repaint();
         setVisible(true);

@@ -21,6 +21,8 @@ public class statusBar extends JMenuBar implements PropertyChangeListener {
      *
      * @param model the model
      */
+
+    // Create a new status bar with no players, blackjack and the creator's (me!) name.
     public statusBar(GameModel model) {
         gameModel = model;
         setLayout(new GridLayout(1, 3));

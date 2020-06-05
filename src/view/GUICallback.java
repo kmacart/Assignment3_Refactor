@@ -60,23 +60,27 @@ public class GUICallback implements GameCallback {
 
     @Override
     public void addPlayer(Player player) {
+        // When a player has been added, fire off the NEW_PLAYER_ADDED property change
         this.pcs.firePropertyChange(NEW_PLAYER_ADDED, null, player);
         showMessageDialog(JOptionPane.getRootFrame(), player.getName() + " has been added to the game.", "Player Added", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
     public void removePlayer(Player player) {
+        // When a player has been removed, fire off the PLAYER_REMOVED property change
         this.pcs.firePropertyChange(PLAYER_REMOVED, null, player);
         showMessageDialog(JOptionPane.getRootFrame(), player.getName() + " has been removed from the game.", "Player Removed",JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
     public void betUpdated(Player player) {
+        // When a bet has been updated, fire off the BET_UPDATED property change.
         this.pcs.firePropertyChange(BET_UPDATED, null, player);
     }
 
     @Override
     public void newDeck(Deck deck) {
+        // When a new deck has been created, fire off the NEW_DECK property change.
         this.pcs.firePropertyChange(NEW_DECK, null, null);
     }
 
@@ -84,23 +88,25 @@ public class GUICallback implements GameCallback {
      * New game.
      */
     public void newGame() {
+        // When a new game has been created, fire off the NEW_GAME property change.
         this.pcs.firePropertyChange(NEW_GAME, null, null);
     }
 
     @Override
     public void playerCard(Player player, Card card) {
-        String path = "/images/DeckOfCards/" + card.getValue() + "_of_" + card.getSuit() + ".png";
+        // When a card has been dealt to a player, fire off the PLAYER_DEAL property change.
         this.pcs.firePropertyChange(PLAYER_DEAL, null, player);
     }
 
     @Override
     public void playerBust(Player player, Card card) {
+        // When a player has busted, fire off the PLAYER_BUST property change.
         this.pcs.firePropertyChange(PLAYER_BUST, null, player);
     }
 
     @Override
     public void houseCard(Hand houseHand, Card card) {
-        String path = "/images/DeckOfCards/" + card.getValue() + "_of_" + card.getSuit() + ".png";
+        // When a house has been dealt a card, fire off the HOUSE_DEAL property change.
         this.pcs.firePropertyChange(HOUSE_DEAL, null, houseHand);
     }
 
@@ -110,11 +116,13 @@ public class GUICallback implements GameCallback {
      * @param player the player
      */
     public void changePlayer(String player) {
+        // When the player has been changed, fire off the CHANGE_PLAYER property change.
         this.pcs.firePropertyChange(CHANGE_PLAYER, null, player);
     }
 
     @Override
     public void houseBust(Hand houseHand, Card card) {
+        // When the house busts, fire off the HOUSE_BUST property change.
         this.pcs.firePropertyChange(HOUSE_BUST, null, houseHand);
     }
 
@@ -125,14 +133,5 @@ public class GUICallback implements GameCallback {
      */
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
-    }
-
-    /**
-     * Remove property change listener.
-     *
-     * @param listener the listener
-     */
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        this.pcs.removePropertyChangeListener(listener);
     }
 }

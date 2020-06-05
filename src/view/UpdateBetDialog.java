@@ -134,7 +134,6 @@ public class UpdateBetDialog extends JDialog {
         submit.addActionListener(this::actionPerformed);
 
         panel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        getContentPane().add(new BackgroundImage().bImg());
 
         panel.setSize(780,1000);
 

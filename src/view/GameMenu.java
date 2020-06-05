@@ -1,10 +1,11 @@
 package view;
 
-import com.sun.glass.events.KeyEvent;
+
 import model.GameModel;
 import model.Player;
 
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
@@ -21,26 +22,32 @@ public class GameMenu extends JMenuBar implements PropertyChangeListener {
      * @param model the model
      */
     public GameMenu(GameModel model) {
-        // File menu
+        // Create a new file menu and set the mnemonic.
         JMenu file = new JMenu("Game");
-        file.setMnemonic(KeyEvent.VK_G);
+        file.setMnemonic(KeyEvent.VK_Q);
 
+        // Add a quit option and set the mnemonic.
         JMenuItem exit = new JMenuItem("Quit");
-        exit.setMnemonic(KeyEvent.VK_E);
-        exit.addActionListener(e -> {
-            System.exit(0);
-        });
+        exit.setMnemonic(KeyEvent.VK_Q);
+
+        // Add an action listener to exit.
+        exit.addActionListener(e -> System.exit(0));
+
+        // Add the JMenus.
         file.add(exit);
         add(file);
 
+        // Create a new file menu and set the mnemonic.
         JMenu players = new JMenu("Players");
         players.setMnemonic(KeyEvent.VK_P);
         players.setContentAreaFilled(true);
 
+        // Create a new JMenuItem for Add Player.
         JMenuItem addPlayer = new JMenuItem("Add Player");
         addPlayer.addActionListener(e -> new AddPlayerDialog(model));
         players.add(addPlayer);
 
+        // Get the collection of players and add each player to the menu.
         Collection<Player> allPlayers = model.getGameEngine().getAllPlayers();
         for (Player player: allPlayers) {
             JMenu playerMenu = new JMenu(player.getName());
@@ -49,18 +56,20 @@ public class GameMenu extends JMenuBar implements PropertyChangeListener {
             playerInfo.add(playerMenu);
         }
 
+        // Add the JMenus.
         players.add(playerInfo);
         add(players);
 
+        // Add the PropertyChangeListener.
         model.getCallBack().addPropertyChangeListener(this);
 
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getPropertyName() == GUICallback.NEW_PLAYER_ADDED) {
+        // If a new player is added, add it to the menu.
+        if (evt.getPropertyName().equals(GUICallback.NEW_PLAYER_ADDED)) {
             Player player = (Player) evt.getNewValue();
-
             JMenu playerMenu = new JMenu(player.getName());
             JMenuItem playerStats = new JMenuItem(player.toString());
             playerMenu.add(playerStats);

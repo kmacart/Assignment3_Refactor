@@ -9,13 +9,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AddPlayerListener implements ActionListener {
-    ButtonGroup icon;
-    JTextField pName;
-    JTextField points;
-    GameModel model;
-    JDialog container;
+    // Class-wide variables
+    private ButtonGroup icon;
+    private JTextField pName;
+    private JTextField points;
+    private GameModel model;
+    private JDialog container;
 
     public AddPlayerListener(ButtonGroup icons, JTextField name, GameModel gameModel, JTextField pPoints, JDialog c) {
+        // Save local variables to class-wide ones.
         icon = icons;
         pName = name;
         model = gameModel;

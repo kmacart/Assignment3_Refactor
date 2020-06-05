@@ -26,6 +26,7 @@ public class ResultsPanel extends JPanel implements PropertyChangeListener {
         model.getCallBack().addPropertyChangeListener(this);
     }
 
+    // Show the game's results.
     private void showPlayerResults(Hand houseHand) {
         for (Player player : model.getGameEngine().getAllPlayers()) {
             player.applyBetResult(houseHand);
