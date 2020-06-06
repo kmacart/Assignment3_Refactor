@@ -28,7 +28,7 @@ public class PlayersPanel extends JPanel implements PropertyChangeListener {
 
     private JButton bet;
     private JButton deal;
-
+    private JButton remove;
 
     /**
      * Instantiates a new Players panel.
@@ -115,7 +115,7 @@ public class PlayersPanel extends JPanel implements PropertyChangeListener {
 
         // Add an ActionListener to the remove button and add the remove button to the buttons panel.
         // The buttons on the player panel.
-        JButton remove = new JButton("Remove Player");
+        remove = new JButton("Remove Player");
         remove.addActionListener(new RemovePlayerListener(model, player, this));
         buttons.add(remove);
 
@@ -177,6 +177,18 @@ public class PlayersPanel extends JPanel implements PropertyChangeListener {
             Collection<Player> players = model.getGameEngine().getAllPlayers();
             players.forEach(this::addPlayer);
             validate();
+        }
+
+        if (evt.getPropertyName().equals(GUICallback.HOUSE_DEAL)) {
+            deal.setEnabled(false);
+            bet.setEnabled(false);
+            remove.setEnabled(false);
+        }
+
+        if (evt.getPropertyName().equals(GUICallback.NEW_GAME)) {
+            deal.setEnabled(true);
+            bet.setEnabled(false);
+            remove.setEnabled(false);
         }
     }
 

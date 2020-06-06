@@ -6,9 +6,7 @@ import view.GUICallback;
 
 import javax.swing.*;
 
-/**
- * The type Game model.
- */
+/* The type Game model. */
 public class GameModel {
     private GameEngineImpl gameEngine;
     private GUICallback callback;
@@ -30,7 +28,11 @@ public class GameModel {
      * @param player the player
      */
     public void setCurrentPlayer(Player player) {
-        currentPlayer = player;
+        try {
+            currentPlayer = player;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -46,11 +48,15 @@ public class GameModel {
      * Instantiates a new Game model.
      */
     public GameModel() {
-        this.gameEngine = new GameEngineImpl();
-        this.callback = new GUICallback();
-        this.gameEngine.registerCallback(callback);
-        ConsoleLoggerCallback logger = new ConsoleLoggerCallback(gameEngine);
-        gameEngine.registerCallback(logger);
+        try {
+            this.gameEngine = new GameEngineImpl();
+            this.callback = new GUICallback();
+            this.gameEngine.registerCallback(callback);
+            ConsoleLoggerCallback logger = new ConsoleLoggerCallback(gameEngine);
+            gameEngine.registerCallback(logger);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -77,16 +83,24 @@ public class GameModel {
      * @param player the player
      */
     public void addPlayer(Player player) {
-        gameEngine.addPlayer(player);
+        try {
+            gameEngine.addPlayer(player);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
      * New game.
      */
     public void newGame() {
-        gameEngine.resetAllBetsAndHands();
-        gameEngine.deck = DeckImpl.createShuffledDeck();
-        this.callback.newGame();
+        try {
+            gameEngine.resetAllBetsAndHands();
+            gameEngine.deck = DeckImpl.createShuffledDeck();
+            this.callback.newGame();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -95,7 +109,11 @@ public class GameModel {
      * @param playerName the player name
      */
     public void changePlayer(String playerName) {
-        this.callback.changePlayer(playerName);
+        try {
+            this.callback.changePlayer(playerName);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -123,7 +141,27 @@ public class GameModel {
         new Thread() {
             @Override
             public void run() {
-                gameEngine.dealHouse(delay);
+                try {
+                    gameEngine.dealHouse(delay);
+                } catch (Exception e2) {
+                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), e2.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }.start();
+    }
+
+    public void dealAll() {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    for (Player player : gameEngine.getAllPlayers()) {
+                        dealPlayer(player);
+                    }
+                    dealHouse();
+                } catch (Exception e1) {
+                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }.start();
     }

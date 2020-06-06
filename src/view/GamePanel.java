@@ -108,7 +108,8 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
             updateCards(currentPlayer.getHand().getCards(), pCards);
             playerScore.setText("Current Score: ".concat(Integer.toString(currentPlayer.getHand().getScore())));
         } else {
-            remove(pCards);
+            pCards.removeAll();
+            playerScore.setText("Current Score: 0");
         }
 
     }
@@ -194,7 +195,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
         if(evt.getPropertyName().equals(GUICallback.NEW_GAME)) {
             pCards.removeAll();
             playerScore.setText("Player Score: 0");
-            resultsPanel = new ResultsPanel(model);
+            resultsPanel.removeAll();
             validate();
         }
     }

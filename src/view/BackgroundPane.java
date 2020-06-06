@@ -99,11 +99,7 @@ public class BackgroundPane extends JPanel {
      * @return the scale factor
      */
     public static double getScaleFactor(int iMasterSize, int iTargetSize) {
-
-        double dScale = (double) iTargetSize / (double) iMasterSize;
-
-        return dScale;
-
+        return (double) iTargetSize / (double) iMasterSize;
     }
 
     /**
@@ -130,12 +126,11 @@ public class BackgroundPane extends JPanel {
      */
     protected static BufferedImage getScaledInstance(BufferedImage img, double dScaleFactor, Object hint, boolean bHighQuality) {
 
-        BufferedImage imgScale = img;
+        BufferedImage imgScale;
 
         int iImageWidth = (int) Math.round(img.getWidth() * dScaleFactor);
         int iImageHeight = (int) Math.round(img.getHeight() * dScaleFactor);
 
-        //        System.out.println("Scale Size = " + iImageWidth + "x" + iImageHeight);
         if (dScaleFactor <= 1.0d) {
 
             imgScale = getScaledDownInstance(img, iImageWidth, iImageHeight, hint, bHighQuality);
@@ -166,7 +161,8 @@ public class BackgroundPane extends JPanel {
 
         BufferedImage ret = img;
         if (targetHeight > 0 || targetWidth > 0) {
-            int w, h;
+            int w;
+            int h;
             if (higherQuality) {
                 // Use multi-step technique: start with original size, then
                 // scale down in multiple passes with drawImage()
@@ -224,7 +220,8 @@ public class BackgroundPane extends JPanel {
         int type = BufferedImage.TYPE_INT_ARGB;
 
         BufferedImage ret = img;
-        int w, h;
+        int w;
+        int h;
         if (higherQuality) {
             // Use multi-step technique: start with original size, then
             // scale down in multiple passes with drawImage()
@@ -260,7 +257,6 @@ public class BackgroundPane extends JPanel {
             g2.dispose();
 
             ret = tmp;
-            tmp = null;
 
         } while (w != targetWidth || h != targetHeight);
         return ret;

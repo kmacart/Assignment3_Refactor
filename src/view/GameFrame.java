@@ -41,7 +41,7 @@ public class GameFrame extends JFrame {
         this.add(new navToolbar(model), BorderLayout.PAGE_START);
         this.add(new PlayersPanel(model), BorderLayout.WEST);
         this.add(new GamePanel(model), BorderLayout.CENTER);
-        this.add(new statusBar(model), BorderLayout.PAGE_END);
+        this.add(new StatusBar(model), BorderLayout.PAGE_END);
 
         // Set the size and visibility.
         setSize(1150, 900);

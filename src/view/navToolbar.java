@@ -35,23 +35,20 @@ public class navToolbar extends JPanel implements PropertyChangeListener {
         if (e.getSource() == dealAll) {
             if (model.getGameEngine().getAllPlayers().isEmpty()) {
                 showMessageDialog(JOptionPane.getRootFrame(), "At least one player must exist and have a bet before dealing the house.", "No Players.", JOptionPane.ERROR_MESSAGE);
-                //            } else {
-                //                int no_bet = 0;
-                //                for (Player player : model.getGameEngine().getAllPlayers()) {
-                //                    if (player.getBet() != Bet.NO_BET && player.getHand().getNumberOfCards() == 0) {
-                //                        model.dealPlayer(player);
-                //                    } else if (player.getBet() == Bet.NO_BET) {
-                //                        no_bet++;
-                //                    }
-                //                }
-                //                if (no_bet == model.getGameEngine().getAllPlayers().size()) {
-                //                    showMessageDialog(JOptionPane.getRootFrame(), "At least one player must place a bet before dealing to the house.", "No Bets", JOptionPane.ERROR_MESSAGE);
-                //                } else {
-                //                    processDealHouse();
-                //                }
-                //            }
-                //            // Otherwise if the source is dealHouse, deal to the house.
+            } else {
+                int no_bet = 0;
+                for (Player player : model.getGameEngine().getAllPlayers()) {
+                    if (player.getBet() == Bet.NO_BET) {
+                        no_bet++;
+                    }
+                }
+                if (no_bet == model.getGameEngine().getAllPlayers().size()) {
+                    showMessageDialog(JOptionPane.getRootFrame(), "At least one player must place a bet before dealing to the house.", "No Bets", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    model.dealAll();
+                }
             }
+            // Otherwise if the source is dealHouse, deal to the house.
         } else if (e.getSource() == dealHouse) {
             processDealHouse();
             // Otherwise, if the source is the dropdown, change the current player.
@@ -159,17 +156,24 @@ public class navToolbar extends JPanel implements PropertyChangeListener {
 
         if(evt.getPropertyName().equals(GUICallback.PLAYER_DEAL)) {
             Player player = (Player) evt.getNewValue();
-            //            if (cb.getSelectedItem() != player.getName()) {
-            //                cb.setSelectedItem(player.getName());
-            //            }
+            if (cb.getSelectedItem() != player.getName()) {
+                cb.setSelectedItem(player.getName());
+            }
             validate();
         }
 
-        if(evt.getPropertyName().equals(GUICallback.HOUSE_DEAL)) {
+        if (evt.getPropertyName().equals(GUICallback.HOUSE_DEAL)) {
             if (cb.getSelectedItem() != "House") {
                 cb.setSelectedItem("House");
             }
+            dealHouse.setEnabled(false);
+            dealAll.setEnabled(false);
             validate();
+        }
+
+        if (evt.getPropertyName().equals(GUICallback.NEW_GAME)) {
+            dealHouse.setEnabled(true);
+            dealAll.setEnabled(true);
         }
     }
 }

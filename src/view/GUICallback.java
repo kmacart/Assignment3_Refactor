@@ -101,7 +101,7 @@ public class GUICallback implements GameCallback {
     @Override
     public void playerBust(Player player, Card card) {
         // When a player has busted, fire off the PLAYER_BUST property change.
-        this.pcs.firePropertyChange(PLAYER_BUST, null, player);
+        this.pcs.firePropertyChange(PLAYER_BUST, card, player);
     }
 
     @Override
@@ -123,7 +123,7 @@ public class GUICallback implements GameCallback {
     @Override
     public void houseBust(Hand houseHand, Card card) {
         // When the house busts, fire off the HOUSE_BUST property change.
-        this.pcs.firePropertyChange(HOUSE_BUST, null, houseHand);
+        this.pcs.firePropertyChange(HOUSE_BUST, card, houseHand);
     }
 
     /**
