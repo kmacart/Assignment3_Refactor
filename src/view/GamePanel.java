@@ -103,10 +103,12 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
             }
         }
 
-        // If there's a current player and the player's been dealt to, update the cards and update the socre.
+        // If there's a current player and the player's been dealt to, update the cards and update the score.
         if (currentPlayer != null && currentPlayer.getHand().getNumberOfCards() > 0) {
             updateCards(currentPlayer.getHand().getCards(), pCards);
             playerScore.setText("Current Score: ".concat(Integer.toString(currentPlayer.getHand().getScore())));
+        } else {
+            remove(pCards);
         }
 
     }
@@ -118,20 +120,22 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
         panel.removeAll();
 
         // For each card, get the image, scale it and add it to the screen.
-        for (Card currentCard: cards) {
-            String cardValue = currentCard.getRank().toString();
-            String cardSuit = currentCard.getSuit().toString();
-
-            Image cardImg = new ImageIcon("images/DeckOfCards/" + cardValue + "_of_" + cardSuit + ".png").getImage();
-            Image temp = cardImg.getScaledInstance(120, 160, Image.SCALE_SMOOTH);
-            ImageIcon cardIcon = new ImageIcon(temp);
-            JLabel card = new JLabel();
-            card.setIcon(cardIcon);
-            panel.add(card);
-
-            panel.setBackground(Color.GRAY);
-            card.setBackground(Color.GRAY);
+        for (Card currentCard : cards) {
+            addCard(currentCard, pCards);
         }
+        panel.setBackground(Color.GRAY);
+    }
+
+    private void addCard(Card currentCard, JPanel panel) {
+        String cardValue = currentCard.getRank().toString();
+        String cardSuit = currentCard.getSuit().toString();
+
+        Image cardImg = new ImageIcon("images/DeckOfCards/" + cardValue + "_of_" + cardSuit + ".png").getImage().getScaledInstance(120, 160, Image.SCALE_SMOOTH);
+        ImageIcon cardIcon = new ImageIcon(cardImg);
+        JLabel card = new JLabel();
+        card.setIcon(cardIcon);
+        card.setBackground(Color.GRAY);
+        panel.add(card);
     }
 
     @Override
@@ -148,7 +152,7 @@ public class GamePanel extends JPanel implements PropertyChangeListener {
         if(evt.getPropertyName().equals(GUICallback.PLAYER_DEAL)) {
             Player player = (Player) evt.getNewValue();
             updateCards(player.getHand().getCards(), pCards);
-            playerScore.setText("Player Score: ".concat(Integer.toString(currentPlayer.getHand().getScore())));
+            playerScore.setText("Player Score: ".concat(Integer.toString(player.getHand().getScore())));
             validate();
         }
 

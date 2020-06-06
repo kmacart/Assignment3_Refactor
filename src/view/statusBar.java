@@ -1,6 +1,7 @@
 package view;
 
 import model.GameModel;
+import model.Player;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,6 +15,7 @@ import java.beans.PropertyChangeListener;
  */
 public class statusBar extends JMenuBar implements PropertyChangeListener {
     private JLabel noPlayers;
+    private JLabel status;
     private GameModel gameModel;
 
     /**
@@ -36,6 +38,15 @@ public class statusBar extends JMenuBar implements PropertyChangeListener {
         noPlayersC.add(noPlayers);
         add(noPlayersC);
 
+        JPanel statusC = new JPanel();
+        statusC.setBackground(Color.GRAY);
+        statusC.setBorder(new LineBorder(Color.black, 1));
+        status = new JLabel("New Game Started");
+        status.setBorder(new EmptyBorder(5, 5, 5, 5));
+        status.setHorizontalAlignment(SwingConstants.CENTER);
+        statusC.add(status);
+        add(statusC);
+
         JPanel creatorC = new JPanel();
         creatorC.setBackground(Color.GRAY);
         creatorC.setBorder(new LineBorder(Color.black, 1));
@@ -44,15 +55,6 @@ public class statusBar extends JMenuBar implements PropertyChangeListener {
         creator.setHorizontalAlignment(SwingConstants.CENTER);
         creatorC.add(creator);
         add(creatorC);
-
-        JPanel timeC = new JPanel();
-        timeC.setBackground(Color.GRAY);
-        timeC.setBorder(new LineBorder(Color.black, 1));
-        JLabel time = new JLabel("Blackjack");
-        time.setBorder(new EmptyBorder(5, 5, 5, 5));
-        time.setHorizontalAlignment(SwingConstants.CENTER);
-        timeC.add(time);
-        add(timeC);
 
         model.getCallBack().addPropertyChangeListener(this);
     }
@@ -63,6 +65,15 @@ public class statusBar extends JMenuBar implements PropertyChangeListener {
             noPlayers.setText("# of Players: " + gameModel.getGameEngine().getAllPlayers().size());
             noPlayers.repaint();
             noPlayers.revalidate();
+        }
+        if (evt.getPropertyName().equals(GUICallback.PLAYER_DEAL)) {
+            Player player = (Player) evt.getNewValue();
+            status.setText("Dealing to " + player.getName());
+
+        }
+        if (evt.getPropertyName().equals(GUICallback.CHANGE_PLAYER)) {
+            String playerName = (String) evt.getNewValue();
+            status.setText("Current Player: " + playerName);
         }
 
     }

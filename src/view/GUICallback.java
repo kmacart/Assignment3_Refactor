@@ -95,7 +95,7 @@ public class GUICallback implements GameCallback {
     @Override
     public void playerCard(Player player, Card card) {
         // When a card has been dealt to a player, fire off the PLAYER_DEAL property change.
-        this.pcs.firePropertyChange(PLAYER_DEAL, null, player);
+        this.pcs.firePropertyChange(PLAYER_DEAL, card, player);
     }
 
     @Override

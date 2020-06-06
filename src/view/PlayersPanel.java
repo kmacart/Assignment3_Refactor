@@ -1,20 +1,20 @@
 package view;
 
+import control.DealPlayerListener;
+import control.RemovePlayerListener;
+import control.UpdateBetListener;
 import model.GameModel;
 import model.Player;
-import model.bet.Bet;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
 
 import static java.awt.BorderLayout.PAGE_START;
-import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * The JPanel PlayersPanel. It displays on the left side of the screen and displays information about all players.
@@ -26,30 +26,9 @@ public class PlayersPanel extends JPanel implements PropertyChangeListener {
     private GameModel model;
     private Player player;
 
-    // The buttons on the player panel.
-    private JButton remove = new JButton("Remove");
-    private JButton bet = new JButton("Update Bet");
-    private JButton deal = new JButton("Deal");
+    private JButton bet;
+    private JButton deal;
 
-    // To avoid anonymous inner classes, I created an overarching actionPerformed method which deals with all ActionListeners and executes code accordingly.
-    public void actionPerformed(ActionEvent e) {
-        // If the class was called from the remove button, remove that player from the game.
-        if (e.getSource() == remove) {
-            model.getGameEngine().removePlayer(player.getId());
-
-            // Else, if the class was called from the bet button, display an UpdateBetDialog popup.
-        } else if (e.getSource() == bet) {
-            new UpdateBetDialog(model, player);
-
-            // Else, if the class was called from the deal button, if the player has not placed a bet, display an error. Else, deal cards to that player.
-        } else if (e.getSource() == deal) {
-            if (player.getBet() == Bet.NO_BET) {
-                showMessageDialog(JOptionPane.getRootFrame(), "A bet needs to be placed before cards can be dealt.", "No Bet", JOptionPane.ERROR_MESSAGE);
-            } else {
-                model.dealPlayer(player);
-            }
-        }
-    }
 
     /**
      * Instantiates a new Players panel.
@@ -135,18 +114,22 @@ public class PlayersPanel extends JPanel implements PropertyChangeListener {
         JPanel buttons = new JPanel(new GridLayout(1, 2));
 
         // Add an ActionListener to the remove button and add the remove button to the buttons panel.
-        remove.addActionListener(this::actionPerformed);
+        // The buttons on the player panel.
+        JButton remove = new JButton("Remove Player");
+        remove.addActionListener(new RemovePlayerListener(model, player, this));
         buttons.add(remove);
 
         // Add an ActionListener to the bet button and add the bet button to the buttons panel.
-        bet.addActionListener(this::actionPerformed);
+        bet = new JButton("Update Bet");
+        bet.addActionListener(new UpdateBetListener(model, player));
         buttons.add(bet);
 
         // Add the two buttons to the right hand side of the player info..
         rightHandInfo.add(buttons);
 
         // Add an ActionListener to the deal button and add the deal button to the RightHandInfo panel.
-        deal.addActionListener(this::actionPerformed);
+        deal = new JButton("Deal");
+        deal.addActionListener(new DealPlayerListener(model, player));
         rightHandInfo.add(deal);
 
         // Nest the panels and add it to the main view.
@@ -165,7 +148,7 @@ public class PlayersPanel extends JPanel implements PropertyChangeListener {
     // The PropertyChange Events
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        // If a new player got added to the game, add the player to the view.
+        //        // If a new player got added to the game, add the player to the view.
         if (evt.getPropertyName().equals(GUICallback.NEW_PLAYER_ADDED)) {
             Player currPlayer = (Player) evt.getNewValue();
             addPlayer(currPlayer);

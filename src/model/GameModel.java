@@ -1,13 +1,16 @@
 package model;
 
+import model.card.DeckImpl;
 import view.ConsoleLoggerCallback;
 import view.GUICallback;
+
+import javax.swing.*;
 
 /**
  * The type Game model.
  */
 public class GameModel {
-    private GameEngine gameEngine;
+    private GameEngineImpl gameEngine;
     private GUICallback callback;
     private int delay = 1500;
     private Player currentPlayer = null;
@@ -82,6 +85,7 @@ public class GameModel {
      */
     public void newGame() {
         gameEngine.resetAllBetsAndHands();
+        gameEngine.deck = DeckImpl.createShuffledDeck();
         this.callback.newGame();
     }
 
@@ -103,7 +107,11 @@ public class GameModel {
         new Thread() {
             @Override
             public void run() {
-                gameEngine.dealPlayer(player.getId(), delay);
+                try {
+                    gameEngine.dealPlayer(player.getId(), delay);
+                } catch (Exception e1) {
+                    JOptionPane.showMessageDialog(JOptionPane.getRootFrame(), e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }.start();
     }

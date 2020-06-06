@@ -18,12 +18,11 @@ import static javax.swing.JOptionPane.showMessageDialog;
  */
 public class navToolbar extends JPanel implements PropertyChangeListener {
 
-    private JButton addPlayer = new JButton("Add Player");
     private JButton dealAll = new JButton("Deal All");
     private JButton dealHouse = new JButton("Deal House");
     private JButton newGame = new JButton("New Game");
-    private JComboBox speed = new JComboBox();
-    private JComboBox cb = new JComboBox();
+    private JComboBox<String> speed = new JComboBox<>();
+    private JComboBox<String> cb = new JComboBox<>();
     private GameModel model;
 
     /**
@@ -36,27 +35,30 @@ public class navToolbar extends JPanel implements PropertyChangeListener {
         if (e.getSource() == dealAll) {
             if (model.getGameEngine().getAllPlayers().isEmpty()) {
                 showMessageDialog(JOptionPane.getRootFrame(), "At least one player must exist and have a bet before dealing the house.", "No Players.", JOptionPane.ERROR_MESSAGE);
-            } else {
-                int no_bet = 0;
-                for (Player player : model.getGameEngine().getAllPlayers()) {
-                    if (player.getBet() != Bet.NO_BET && player.getHand().getNumberOfCards() == 0) {
-                        model.dealPlayer(player);
-                    } else if (player.getBet() == Bet.NO_BET) {
-                        no_bet++;
-                    }
-                }
-                if (no_bet == model.getGameEngine().getAllPlayers().size()) {
-                    showMessageDialog(JOptionPane.getRootFrame(), "At least one player must place a bet before dealing to the house.", "No Bets", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    processDealHouse();
-                }
+                //            } else {
+                //                int no_bet = 0;
+                //                for (Player player : model.getGameEngine().getAllPlayers()) {
+                //                    if (player.getBet() != Bet.NO_BET && player.getHand().getNumberOfCards() == 0) {
+                //                        model.dealPlayer(player);
+                //                    } else if (player.getBet() == Bet.NO_BET) {
+                //                        no_bet++;
+                //                    }
+                //                }
+                //                if (no_bet == model.getGameEngine().getAllPlayers().size()) {
+                //                    showMessageDialog(JOptionPane.getRootFrame(), "At least one player must place a bet before dealing to the house.", "No Bets", JOptionPane.ERROR_MESSAGE);
+                //                } else {
+                //                    processDealHouse();
+                //                }
+                //            }
+                //            // Otherwise if the source is dealHouse, deal to the house.
             }
-            // Otherwise if the source is dealHouse, deal to the house.
         } else if (e.getSource() == dealHouse) {
             processDealHouse();
             // Otherwise, if the source is the dropdown, change the current player.
         } else if (e.getSource() == cb) {
-            model.changePlayer(cb.getSelectedItem().toString());
+            if (cb.getItemCount() > 0) {
+                model.changePlayer(cb.getSelectedItem().toString());
+            }
             // Otherwise if the source is newGame, create a new game.
         } else if (e.getSource() == newGame) {
             model.newGame();
@@ -113,6 +115,7 @@ public class navToolbar extends JPanel implements PropertyChangeListener {
 
         speed.addActionListener(this::actionPerformed);
 
+        JButton addPlayer = new JButton("Add Player");
         addPlayer.addActionListener(e -> new AddPlayerDialog(model));
         add(addPlayer);
 
@@ -156,9 +159,9 @@ public class navToolbar extends JPanel implements PropertyChangeListener {
 
         if(evt.getPropertyName().equals(GUICallback.PLAYER_DEAL)) {
             Player player = (Player) evt.getNewValue();
-            if (cb.getSelectedItem() != player.getName()) {
-                cb.setSelectedItem(player.getName());
-            }
+            //            if (cb.getSelectedItem() != player.getName()) {
+            //                cb.setSelectedItem(player.getName());
+            //            }
             validate();
         }
 

@@ -1,15 +1,12 @@
 
-T
-java:S1135A"2Complete the task associated to this TODO comment.(ùäšûÿÿÿÿ8Ê£¹Î¦.
-V
-java:S4973n"9Use the "equals" method if value comparison was intended.(˜Æ‘ê8Ê£¹Î¦.
-I
-java:S1948"'Make "model" transient or serializable.(ŒòÛÊúÿÿÿÿ8‰‚îÉ¦.
-[
-java:S4973u"9Use the "equals" method if value comparison was intended.(ïĞóÇüÿÿÿÿ8Ê£¹Î¦.
-E
-java:S16046"(Make this anonymous inner class a lambda(îÎºÇ8”÷ÚÊ¦.
-X	java:S125B"<This block of commented-out lines of code should be removed.( •‚†8Ê£¹Î¦.
-]	java:S125E"<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8Ê£¹Î¦.
-X	java:S125>"<This block of commented-out lines of code should be removed.(É¢áà8Ê£¹Î¦.
-]	java:S125@"<This block of commented-out lines of code should be removed.(‘„¨Ãùÿÿÿÿ8Ê£¹Î¦.
+w
+java:S1450"URemove the "player" field and declare it as a local variable in the relevant methods.(Ç¹Ù±úÿÿÿÿ8¬Ó©¹¨.
+L
+java:S1068"*Remove this unused "player" private field.(Ç¹Ù±úÿÿÿÿ8¬Ó©¹¨.
+]	java:S125&"<This block of commented-out lines of code should be removed.(ú‚ğ×üÿÿÿÿ8¬Ó©¹¨.
+]	java:S125*"<This block of commented-out lines of code should be removed.(èÜÆùÿÿÿÿ8¬Ó©¹¨.
+]	java:S125."<This block of commented-out lines of code should be removed.(éØ»Úûÿÿÿÿ8¬Ó©¹¨.
+Y	java:S125¤"<This block of commented-out lines of code should be removed.(ôˆ„8¬Ó©¹¨.
+^	java:S125«"<This block of commented-out lines of code should be removed.(¨°–¹ÿÿÿÿÿ8¬Ó©¹¨.
+^	java:S125³"<This block of commented-out lines of code should be removed.(õ‹÷Åûÿÿÿÿ8¬Ó©¹¨.
+^	java:S125»"<This block of commented-out lines of code should be removed.(Õø½¥úÿÿÿÿ8¬Ó©¹¨.
